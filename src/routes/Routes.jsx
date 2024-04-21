@@ -9,12 +9,14 @@ import AllProduct from "../pages/dashboard/products/AllProduct";
 import Update from "../pages/dashboard/update-product/Update";
 import UpdateUser from "../pages/dashboard/update-users/Update";
 import AddItem from "../pages/dashboard/add-item/AddItem";
+import DetailsProduct from "../pages/Home/details-product/DetailsProduct";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
   },
+
   {
     path: "/",
     element: <AuthLayout />,
@@ -26,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: "auth/login",
         element: <Login />,
+      },
+      {
+        path: "coffee/:id",
+        element: <DetailsProduct />,
       },
     ],
   },

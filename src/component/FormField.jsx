@@ -1,16 +1,19 @@
 import { TextField } from "@mui/material";
 
-const FormField = ({ label, type, onChange, ...props }) => {
+const FormField = ({ label = "", defaultValue = "", type, onChange, ...props }) => {
   return (
-    <TextField
-      id="outlined-basic"
-      type={type}
-      label={label}
-      onChange={onChange}
-      variant="outlined"
-      size="small"
-      {...props}
-    />
+    <>
+      <TextField
+        id="outlined-basic"
+        type={type}
+        label={label}
+        defaultValue={defaultValue}
+        onChange={onChange}
+        variant="outlined"
+        size="small"
+        {...props}
+      />
+    </>
   );
 };
 

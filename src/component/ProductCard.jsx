@@ -1,53 +1,64 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import img from "../assets/coffee-logo.png";
+import AspectRatio from "@mui/joy/AspectRatio";
+import Button from "@mui/joy/Button";
+import Card from "@mui/joy/Card";
+import CardContent from "@mui/joy/CardContent";
+import CardOverflow from "@mui/joy/CardOverflow";
+import Chip from "@mui/joy/Chip";
+import Typography from "@mui/joy/Typography";
 import { Grid } from "@mui/material";
+import { IconButton } from "@mui/joy";
+import { Favorite } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
-const ProductCard = ({ name, price, supplier }) => {
+const ProductCard = ({ item }) => {
   return (
     <Grid item lg={4} md={6} xs={12}>
-      <Card sx={{ display: "flex", bgcolor: "whitesmoke" }}>
-        <CardMedia
-          component="img"
-          sx={{ width: 151 }}
-          image={img}
-          alt="Live from space album cover"
-        />
-        <Box
-          flexGrow={1}
-          sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
-        >
-          <CardContent sx={{ flex: "1 0 auto" }}>
-            <Typography component="div" variant="subtitle1">
-              Name: {name}
+      <Card sx={{ width: 320, maxWidth: "100%", boxShadow: "lg" }}>
+        <CardOverflow>
+          <Link to={`/coffee/${item._id}`}>
+            <AspectRatio sx={{ minWidth: 200 }}>
+              <img src={item.image} loading="lazy" alt="" />
+            </AspectRatio>
+          </Link>
+          <IconButton
+            aria-label="Like minimal photography"
+            size="md"
+            variant="solid"
+            sx={{
+              position: "absolute",
+              zIndex: 2,
+              borderRadius: "50%",
+              right: "1rem",
+              bottom: 0,
+              transform: "translateY(50%)",
+            }}
+          >
+            <Favorite />
+          </IconButton>
+        </CardOverflow>
+        <Link to={`/coffee/${item._id}`}>
+          <CardContent>
+            <Typography level="h4">{item.name}</Typography>
+            <Typography
+              level="title-lg"
+              sx={{ mt: 1, fontWeight: "xl", color: "salmon" }}
+              endDecorator={
+                <Chip component="span" size="sm" variant="soft" color="success">
+                  Tax Included
+                </Chip>
+              }
+            >
+              $ {item.price}
             </Typography>
-            <Typography variant="subtitle1" component="div">
-              Price: {price}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
-              Supplier: {supplier}
-            </Typography>
+            <Typography level="body-sm">(Stock Available)</Typography>
           </CardContent>
-          <Box sx={{ display: "flex", flexDirection: "column", pl: 1, pb: 1 }}>
-            <IconButton>
-              <VisibilityIcon />
-            </IconButton>
-            <IconButton>
-              <EditIcon />
-            </IconButton>
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        </Box>
+        </Link>
+        <CardOverflow>
+          <Button variant="solid" sx={{ color: "white" }} size="lg">
+            Add to cart
+          </Button>
+        </CardOverflow>
       </Card>
     </Grid>
   );

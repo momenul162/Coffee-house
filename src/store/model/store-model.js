@@ -18,6 +18,22 @@ export const productModel = {
   }),
 };
 
+export const categoryModel = {
+  categories: [],
+
+  addCategory: action((state, payload) => {
+    state.categories = payload;
+  }),
+  fetchCategories: thunk(async (actions, payload) => {
+    try {
+      const { data } = await axios.get(payload.url);
+      actions.addCategory(data);
+    } catch (e) {
+      console.log("Error fatching categories:", e);
+    }
+  }),
+};
+
 export const userModel = {
   users: [],
 

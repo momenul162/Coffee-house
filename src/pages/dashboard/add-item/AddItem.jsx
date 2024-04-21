@@ -1,54 +1,73 @@
-import { Box, Button, Container, Typography } from "@mui/material";
-import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import FormField from "../../../component/FormField";
+import axios from "axios";
+import Swal from "sweetalert2";
+import useCategory from "../../../hooks/useCategory";
+
 const hosting_key = import.meta.env.VITE_img_hosting_key;
 
 const AddItem = () => {
-  const img_hosting_url = `https://api.imgbb.com/1/upload?key=${hosting_key}`;
-  //   const item_upload_url = "http://localhost:4000/api/products";
-
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       name: "",
       supplier: "",
       taste: "",
+      price: 0,
       image: "",
       category: "",
       details: "",
     },
   });
 
-  console.log(control);
+  const categories = useCategory();
+  const item_upload_url = "http://localhost:4000/admin/api/products";
+  const img_hosting_url = `https://api.imgbb.com/1/upload?key=${hosting_key}`;
 
   const onValid = async (data) => {
+    console.log(data);
     const formData = new FormData();
-    formData.append("image", data.image[0]);
-    console.log(formData);
+    formData.append("image", data.image);
 
     try {
-      const res = await fetch(img_hosting_url, {
+      fetch(img_hosting_url, {
         method: "POST",
         body: formData,
-      });
-      if (!res.ok) {
-        throw new Error("Failed to upload image");
-      }
-      const result = await res.json();
-      console.log("Image uploaded successfully:", result);
-    } catch (error) {
-      console.log(error);
-    }
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.success) {
+            const imgURL = result.data.display_url;
+            const { name, supplier, price, category, taste, details } = data;
+            const newItem = { name, price, supplier, category, taste, details, image: imgURL };
 
-    // try {
-    //   if (data.name && data.category && data.image && data.supplier) {
-    //     const res = await axios.post(url, data);
-    //     if (res.data.token) {
-    //     }
-    //   }
-    // } catch (e) {
-    //   console.log(e.message);
-    // }
+            axios.post(item_upload_url, newItem).then((data) => {
+              if (data.status === 200) {
+                reset();
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: `${data.data.message}`,
+                  showConfirmButton: false,
+                  timer: 1000,
+                });
+              }
+            });
+          }
+        });
+    } catch (error) {
+      console.log("ERROR", error);
+    }
   };
 
   return (
@@ -86,26 +105,47 @@ const AddItem = () => {
             render={({ field }) => <FormField {...field} label="Taste" type="text" />}
           />
           <Controller
-            name="category"
+            name="price"
             control={control}
-            render={({ field }) => <FormField {...field} label="Category" type="" />}
+            render={({ field }) => <FormField {...field} label="Price" type="text" />}
           />
         </Box>
-        {/* <Controller
-          name="image"
+        <Controller
+          name="category"
           control={control}
-          render={({ field: onChange, ...rest }) => <FormField {...field} type="file" />}
-        /> */}
+          render={({ field }) => (
+            <FormControl sx={{ minWidth: 210 }} size="small">
+              <InputLabel id="demo-select-small-label">Category</InputLabel>
+
+              <Select
+                {...field}
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                label="Category"
+              >
+                <MenuItem value="">
+                  <em>Select one</em>
+                </MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category._id} value={category._id}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+        />
         <Controller
           control={control}
           name="image"
-          render={({ field: { onChange, ref, ...rest } }) => {
+          render={({ field: { onChange, value, ref, ...field } }) => {
             return (
               <FormField
                 type="file"
                 ref={ref}
+                value={value?.fileName}
                 onChange={(event) => onChange(event.target.files[0])}
-                {...rest}
+                {...field}
               />
             );
           }}
