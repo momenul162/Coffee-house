@@ -6,8 +6,7 @@ import CardContent from "@mui/joy/CardContent";
 import CardOverflow from "@mui/joy/CardOverflow";
 import Chip from "@mui/joy/Chip";
 import Typography from "@mui/joy/Typography";
-import { Grid } from "@mui/material";
-import { IconButton } from "@mui/joy";
+import { Grid, IconButton } from "@mui/joy";
 import { Favorite } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import { Tab, TabList, TabPanel } from "@mui/joy";
+import { Tab, TabList } from "@mui/joy";
 import React from "react";
 import useCategory from "../../hooks/useCategory";
 
@@ -6,11 +6,15 @@ const HomeTab = () => {
   const categories = useCategory();
 
   return (
-    <>
-      <TabList>
-        {categories && categories.map((category) => <Tab key={category._id}>{category.name}</Tab>)}
-      </TabList>
-    </>
+    <TabList sx={{ display: "flex", flexWrap: "wrap" }}>
+      <Tab value={"All"}>All</Tab>
+      {categories &&
+        categories.map((category) => (
+          <Tab value={category.name} key={category._id}>
+            {category.name}
+          </Tab>
+        ))}
+    </TabList>
   );
 };
 

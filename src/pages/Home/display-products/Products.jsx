@@ -1,53 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ProductCard from "../../../component/ProductCard";
-import { Container, Grid, InputLabel, Pagination } from "@mui/material";
+import { Pagination } from "@mui/material";
 import useProducts from "../../../hooks/useProducts";
 import Tabs from "@mui/joy/Tabs";
-import { Box, FormControl, MenuItem, Select, Stack } from "@mui/joy";
+import { Container, Grid, Stack, Typography } from "@mui/joy";
 import HomeTab from "../../../component/home-tab/HomeTab";
+import SortSelect from "../../../component/select-sort/SortSelect";
 
 const Products = () => {
   const [page, setPage] = useState(1);
   const [displayLimit, setDisplayLimit] = useState(9);
-
+  const [tab, setTab] = useState("All");
   const { products, totalProduct, limit } = useProducts({ page, limit: displayLimit });
 
-  const handleLimit = (event) => {
-    setDisplayLimit(event?.target?.value);
+  const getLimit = (value) => {
+    console.log("limit: ", value);
+    setDisplayLimit(value);
   };
 
-  const handlePage = (e, value) => {
+  const handleTab = (_e, newValue) => {
+    setTab(newValue);
+  };
+
+  const handlePage = (_e, value) => {
     setPage(value);
   };
 
+  const categoryByItem = products?.filter((item) => item.category.name === tab);
+
   return (
     <Container maxWidth={"xl"} sx={{ mt: 4 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Tabs aria-label="Basic tabs" defaultValue={0} sx={{ mb: 1 }}>
-          <HomeTab />
-        </Tabs>
+      <Tabs
+        onChange={handleTab}
+        aria-label="Basic tabs"
+        value={tab}
+        sx={{ display: "flex", flexDirection: { md: "row" }, justifyContent: "center", mb: 1 }}
+      >
+        <HomeTab />
+        <SortSelect value={displayLimit} getLimit={getLimit} />
+      </Tabs>
 
-        <FormControl sx={{ mr: 15, mb: 2, minWidth: 80 }}>
-          <InputLabel id="demo-simple-select-autowidth-label">Sort</InputLabel>
-          <Select
-            labelId="demo-simple-select-autowidth-label"
-            id="demo-simple-select-autowidth"
-            label="Sort"
-            value={displayLimit}
-            onChange={handleLimit}
-          >
-            <MenuItem value={6}>Six</MenuItem>
-            <MenuItem value={9}>Nine</MenuItem>
-            <MenuItem value={12}>Twelve</MenuItem>
-            <MenuItem value={18}>Eighteen</MenuItem>
-            <MenuItem value={24}>Twenty Four</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+      {tab === "All" ? (
+        <Typography>Total Items: {totalProduct}</Typography>
+      ) : (
+        <Typography>
+          {categoryByItem?.length === 0 ? (
+            <Typography level="h3" textAlign={"center"}>
+              This items not available
+            </Typography>
+          ) : (
+            "Total Items: " + categoryByItem.length
+          )}
+        </Typography>
+      )}
 
-      <Grid alignItems={"center"} container rowSpacing={2} columnSpacing={{ xs: 2, lg: 4, md: 3 }}>
-        {products && products.map((item) => <ProductCard key={item._id} item={item} />)}
+      <Grid container rowSpacing={2} columnSpacing={{ xs: 2, lg: 4, md: 3 }}>
+        {tab === "All"
+          ? products?.map((item) => <ProductCard key={item._id} item={item} />)
+          : categoryByItem?.map((item) => <ProductCard key={item._id} item={item} />)}
       </Grid>
+
       <Stack spacing={4} alignItems={"center"} mt={4}>
         <Pagination
           onChange={handlePage}

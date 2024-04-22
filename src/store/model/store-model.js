@@ -26,10 +26,10 @@ export const categoryModel = {
   }),
   fetchCategories: thunk(async (actions, payload) => {
     try {
-      const { data } = await axios.get(payload.url);
-      actions.addCategory(data);
+      const { data } = await axios.get(payload?.url);
+      actions?.addCategory(data);
     } catch (e) {
-      console.log("Error fatching categories:", e);
+      console.log("Error fetching categories:", e);
     }
   }),
 };
@@ -46,7 +46,7 @@ export const userModel = {
       const { data } = await axios.get(payload.url);
       actions.addUser(data);
     } catch (error) {
-      console.log("Error fatching users: ", error);
+      console.log("Error fetching users: ", error);
     }
   }),
 };

@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
-import useProducts from "../../../hooks/useProducts";
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import axios from "axios";
+import useOneProduct from "../../../hooks/useOneProduct";
 
 const DetailsProduct = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState({});
-
-  useEffect(async () => {
-    const product = await axios.get(`http://localhost:4000/api/products/${id}`);
-    setProduct(product);
-
-    return product;
-  }, [id]);
+  const product = useOneProduct({ id });
 
   return (
     <Container sx={{ backgroundColor: "#F4F3F0", my: 10, py: 4 }}>
       <Link to="/">
-        <Typography>
+        <Typography sx={{ display: "flex", alignItems: "center", mb: 2 }}>
           <KeyboardBackspaceIcon /> Back to Home
         </Typography>
       </Link>
