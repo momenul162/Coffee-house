@@ -1,8 +1,9 @@
-import { Alert, Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import FormField from "../../component/FormField";
-import axios from "axios";
+import Swal from "sweetalert2";
+import { baseURL } from "../../utils/baseURL";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,16 +14,20 @@ const Login = () => {
     },
   });
 
-  const url = "http://localhost:4000/auth/login";
-
   const onValid = async (data) => {
     try {
       if (data.email && data.password) {
-        const res = await axios.post(url, data);
+        const res = await baseURL.post("/auth/login", data);
+        console.log(res.data);
         if (res.data.token) {
-          <Alert variant="filled" severity="success">
-            {res.data.message}
-          </Alert>;
+          localStorage.setItem("jwt-access-token", res.data.token);
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `${res.data.message}`,
+            showConfirmButton: false,
+            timer: 1000,
+          });
           navigate("/");
           reset();
         }
@@ -49,12 +54,12 @@ const Login = () => {
         autoComplete="off"
       >
         <Controller
-          name="name"
+          name="email"
           control={control}
           render={({ field }) => <FormField {...field} label="Email" type="email" />}
         />
         <Controller
-          name="supplier"
+          name="password"
           control={control}
           render={({ field }) => <FormField {...field} label="Password" type="password" />}
         />

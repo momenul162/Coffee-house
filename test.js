@@ -1,55 +1,46 @@
-// const canDivideEvenly = (w) => {
-//   if (w % 2 === 0 && w !== 2) {
-//     console.log("YES");
-//   } else {
-//     console.log("NO");
-//   }
+// var sortBy = function (arr, fn) {
+//   const sortedArray = fn(arr);
+
+//   return sortedArray;
 // };
 
-// const input = require("fs").readFileSync("/dev/stdin", "utf8").trim();
-// const w = parseInt(input, 8);
-// canDivideEvenly(w);
+// // function bubbleSort(arr) {
+// //   for (var i = 0; i < arr.length; i++) {
+// //     for (var j = 0; j < arr.length; j++) {
+// //       if (arr[i] < arr[j]) {
+// //         var temp = arr[i];
+// //         arr[i] = arr[j];
+// //         arr[j] = temp;
+// //       }
+// //     }
+// //   }
+// //   return arr;
+// // }
 
-// const deleteDuplicates = (head) => {
-//   const uniqueSet = new Set(head);
+// // Example usage:
+// var unsortedArray = [0, 9, 4, 5, 3, 8, 1, 2];
+// var sortedArray = bubbleSort(unsortedArray, bubbleSort);
+// console.log("Sorted Array:", sortedArray);
 
-//   const uniqueArray = Array.from(uniqueSet);
+function ListNode(value, next) {
+  this.value = value === undefined ? 0 : value;
+  this.value = next === undefined ? null : next;
+}
 
-//   return uniqueArray;
-// };
+var mergeTwoLists = function (list1, list2) {
+  const head = new ListNode(list1, list2);
+  console.log(head);
+  // for (var i = 0; i < head.length; i++) {
+  //   for (var j = 0; j < head.length; j++) {
+  //     if (head[i] < head[j]) {
+  //       var temp = head[i];
+  //       head[i] = head[j];
+  //       head[j] = temp;
+  //     }
+  //   }
+  // }
 
-// const array = [1, 2, 3, 2, 4, 1, 5, 3];
-// const uniqueArray = deleteDuplicates(array);
-// console.log(uniqueArray);
-
-// var map = function (arr, fn) {
-//   let result = [];
-//   for (let i = 0; i < arr.length; i++) {
-//     const func = fn(arr[i], i);
-//     if (func) {
-//       result.push(arr[i]);
-//     }
-//   }
-//   return result;
-// };
-
-// function greaterThan10(n) {
-//   return n > 10;
-// }
-
-// const arr = [0, 10, 20, 30];
-// const newArray = map(arr, greaterThan10);
-// console.log(newArray);
-
-var commonPrefix = function (arr) {
-  for (let i = 0; i < arr[0].length; i++) {
-    const char = arr[0][i];
-    for (let j = 1; j < arr.length; j++) {
-      console.log(i);
-      console.log(arr[j][i]);
-    }
-  }
+  // return head;
 };
 
-const x = commonPrefix(["flower", "flow", "flight"]);
-console.log(x);
+console.log(mergeTwoLists([1, 2, 4], [1, 3, 4]));

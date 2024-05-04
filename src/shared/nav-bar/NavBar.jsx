@@ -16,7 +16,6 @@ import { Link } from "react-router-dom";
 import img from "../../assets/coffee-logo.png";
 import NavItem from "../../component/NavItem";
 
-const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const NavBar = () => {
@@ -137,11 +136,18 @@ const NavBar = () => {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
+            <MenuItem
+              onClick={handleCloseUserMenu}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "start",
+              }}
+            >
+              <NavItem nav={"Log out"} route={"/auth/login"} />
+              <NavItem nav={"Login"} route={"/auth/login"} />
+              <NavItem nav={"register"} route={"/auth/register"} />
+            </MenuItem>
           </Menu>
         </Box>
       </Toolbar>

@@ -15,19 +15,17 @@ import { Controller, useForm } from "react-hook-form";
 import FormField from "../../../component/FormField";
 import Swal from "sweetalert2";
 import useCategory from "../../../hooks/useCategory";
-import axios from "axios";
+import { baseURL } from "../../../utils/baseURL";
 
 const Update = () => {
   const { id } = useParams();
-  const products = useProducts();
   const categories = useCategory();
   const { control, handleSubmit, reset } = useForm({});
-  const item_upload_url = `http://localhost:4000/admin/api/products/${id}`;
 
-  const product = products?.find((item) => item._id === id);
+  // const product = products?.find((item) => item._id === id);
 
   const onValid = async (data) => {
-    axios.patch(item_upload_url, data).then((data) => {
+    baseURL.patch(`/admin/api/products/${id}`, data).then((data) => {
       if (data.status === 200) {
         reset();
         Swal.fire({

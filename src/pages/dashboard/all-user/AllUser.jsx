@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -9,16 +9,20 @@ import EditIcon from "@mui/icons-material/Edit";
 import { StyledTableCell, StyledTableRow } from "../../../component/UI/mui-table/table-styoe";
 import { Container, IconButton, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-import useUser from "../../../hooks/useUser";
 import Swal from "sweetalert2";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { Box, Modal } from "@mui/joy";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 const AllUser = () => {
-  const users = useUser();
+  const { users } = useStoreState((state) => state.users);
+  const { fetchUser } = useStoreActions((actions) => actions.users);
+  const { deleteUser } = useStoreActions((actions) => actions.users);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
 
   const handleRemove = async (user) => {
     const result = await Swal.fire({
@@ -31,17 +35,14 @@ const AllUser = () => {
       confirmButtonText: "Yes, delete it!",
     });
     if (result.isConfirmed) {
-      const res = await axios.delete(`http://localhost:4000/admin/api/users/${user._id}`);
-
-      if (res.status === 203) {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: `${res.data}`,
-          showConfirmButton: false,
-          timer: 1000,
-        });
-      }
+      await deleteUser({ userId: user._id });
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Deleted Successfully",
+        showConfirmButton: false,
+        timer: 1000,
+      });
     }
   };
 

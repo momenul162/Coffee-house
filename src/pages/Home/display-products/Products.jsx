@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../../../component/ProductCard";
 import { Pagination } from "@mui/material";
-import useProducts from "../../../hooks/useProducts";
 import Tabs from "@mui/joy/Tabs";
 import { Container, Grid, Stack, Typography } from "@mui/joy";
 import HomeTab from "../../../component/home-tab/HomeTab";
 import SortSelect from "../../../component/select-sort/SortSelect";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 const Products = () => {
   const [page, setPage] = useState(1);
   const [displayLimit, setDisplayLimit] = useState(9);
   const [tab, setTab] = useState("All");
-  const { products, totalProduct, limit } = useProducts({ page, limit: displayLimit });
+  const { products } = useStoreState((state) => state.products);
+  const { fetchProducts } = useStoreActions((actions) => actions.products);
+
+  const { products: items, totalProduct, limit } = products;
+
+  useEffect(() => {
+    fetchProducts({ limit: displayLimit, page });
+  }, [fetchProducts, page, displayLimit]);
 
   const getLimit = (value) => {
-    console.log("limit: ", value);
     setDisplayLimit(value);
   };
 
@@ -26,7 +32,7 @@ const Products = () => {
     setPage(value);
   };
 
-  const categoryByItem = products?.filter((item) => item.category.name === tab);
+  const categoryByItem = items?.filter((item) => item.category.name === tab);
 
   return (
     <Container maxWidth={"xl"} sx={{ mt: 4 }}>
@@ -39,7 +45,6 @@ const Products = () => {
         <HomeTab />
         <SortSelect value={displayLimit} getLimit={getLimit} />
       </Tabs>
-
       {tab === "All" ? (
         <Typography>Total Items: {totalProduct}</Typography>
       ) : (
@@ -53,13 +58,11 @@ const Products = () => {
           )}
         </Typography>
       )}
-
       <Grid container rowSpacing={2} columnSpacing={{ xs: 2, lg: 4, md: 3 }}>
         {tab === "All"
-          ? products?.map((item) => <ProductCard key={item._id} item={item} />)
+          ? items?.map((item) => <ProductCard key={item._id} item={item} />)
           : categoryByItem?.map((item) => <ProductCard key={item._id} item={item} />)}
       </Grid>
-
       <Stack spacing={4} alignItems={"center"} mt={4}>
         <Pagination
           onChange={handlePage}

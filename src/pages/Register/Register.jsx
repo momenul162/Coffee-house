@@ -1,8 +1,9 @@
-import { Alert, Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import FormField from "../../component/FormField";
-import axios from "axios";
+import Swal from "sweetalert2";
+import { baseURL } from "../../utils/baseURL";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -15,16 +16,18 @@ const Register = () => {
     },
   });
 
-  const url = "http://localhost:4000/auth/register";
-
   const onValid = async (data) => {
     try {
       if (data.name && data.email && data.password) {
-        const res = await axios.post(url, data);
-        if (res.data.token) {
-          <Alert variant="filled" severity="success">
-            {res.data.message}
-          </Alert>;
+        const res = await baseURL.post("/auth/register", data);
+        if (res.data) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `${res.data.message}`,
+            showConfirmButton: false,
+            timer: 1000,
+          });
           navigate("/auth/login");
           reset();
         }
@@ -56,12 +59,12 @@ const Register = () => {
           render={({ field }) => <FormField {...field} label="Name" type="text" />}
         />
         <Controller
-          name="name"
+          name="email"
           control={control}
           render={({ field }) => <FormField {...field} label="Email" type="email" />}
         />
         <Controller
-          name="supplier"
+          name="password"
           control={control}
           render={({ field }) => <FormField {...field} label="Password" type="password" />}
         />
