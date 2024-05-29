@@ -10,11 +10,25 @@ import Update from "../pages/dashboard/update-product/Update";
 import UpdateUser from "../pages/dashboard/update-users/Update";
 import AddItem from "../pages/dashboard/add-item/AddItem";
 import DetailsProduct from "../pages/Home/details-product/DetailsProduct";
+import Carts from "../pages/Carts/Carts";
+import CartLayout from "../layout/CartLayout";
+import Payment from "../pages/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+  },
+
+  {
+    path: "/",
+    element: <CartLayout />,
+    children: [
+      {
+        path: "/api/carts",
+        element: <Carts />,
+      },
+    ],
   },
 
   {
@@ -60,5 +74,9 @@ export const router = createBrowserRouter([
         element: <AddItem />,
       },
     ],
+  },
+  {
+    path: "payments",
+    element: <Payment />,
   },
 ]);

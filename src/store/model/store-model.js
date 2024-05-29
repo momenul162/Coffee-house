@@ -17,6 +17,15 @@ export const productModel = {
     }
   }),
 
+  updateProduct: thunk(async (actions, { productId }) => {
+    try {
+      await baseURL.patch(`/admin/api/products/${productId}`);
+      actions.fetchProducts({ page, limit });
+    } catch (error) {
+      console.log(error);
+    }
+  }),
+
   deleteProduct: thunk(async (actions, { productId, page, limit }) => {
     try {
       await baseURL.delete(`/admin/api/products/${productId}`);
@@ -65,6 +74,23 @@ export const userModel = {
       actions.fetchUser();
     } catch (error) {
       console.log(error);
+    }
+  }),
+};
+
+export const currentUserModel = {
+  user: {},
+
+  setUser: action((state, payload) => {
+    state.user = payload;
+  }),
+
+  fetchCurrentUser: thunk(async (actions) => {
+    try {
+      const { data } = await baseURL.get("/api/current/user");
+      actions.setUser(data);
+    } catch (error) {
+      console.log(error.response.data);
     }
   }),
 };

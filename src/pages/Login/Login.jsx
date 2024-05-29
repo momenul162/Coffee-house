@@ -4,9 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import FormField from "../../component/FormField";
 import Swal from "sweetalert2";
 import { baseURL } from "../../utils/baseURL";
+import { useStoreActions } from "easy-peasy";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { fetchCurrentUser } = useStoreActions((actions) => actions.currentUser);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       email: "",
@@ -18,7 +20,7 @@ const Login = () => {
     try {
       if (data.email && data.password) {
         const res = await baseURL.post("/auth/login", data);
-        console.log(res.data);
+
         if (res.data.token) {
           localStorage.setItem("jwt-access-token", res.data.token);
           Swal.fire({
@@ -28,6 +30,7 @@ const Login = () => {
             showConfirmButton: false,
             timer: 1000,
           });
+          fetchCurrentUser();
           navigate("/");
           reset();
         }
@@ -38,7 +41,7 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ boxShadow: 3, py: 8, px: 0, mt: 4, borderRadius: 2 }}>
+    <Container maxWidth="xs" sx={{ boxShadow: 3, py: 8, px: 0, mt: 20, mb: 10, borderRadius: 2 }}>
       <Typography align="center" variant="h4" sx={{ mb: 3, color: "violet" }}>
         Sign in
       </Typography>

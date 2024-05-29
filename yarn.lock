@@ -778,6 +778,18 @@
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.15.3.tgz#d2509048d69dbb72d5389a14945339f1430b2d3c"
   integrity sha512-Oy8rmScVrVxWZVOpEF57ovlnhpZ8CCPlnIIumVcV9nFdiSIrus99+Lw78ekXyGvVDlIsFJbSfmSovJUhCWYV3w==
 
+"@stripe/react-stripe-js@^2.7.1":
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-2.7.1.tgz#2be66166318fcb898c67a19e5b342364a2714d57"
+  integrity sha512-/i13alp27HaSBbMM6kW0jhy8KqdtOL1T/EcRjFjfhvt+CBtMEg8TD7y28W3oZG0+OBDdCyGGnXgNgrKPYQH40g==
+  dependencies:
+    prop-types "^15.7.2"
+
+"@stripe/stripe-js@^3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-3.4.1.tgz#065ed8450992e9e80f2b4ffac9f1f97a56291451"
+  integrity sha512-6vFTA7+MzoQyhZDn/D3wWZrUE8M8OSUFJE2Y3O1okfBWr4eCLvMeSoZuYN2xb1KJ3J0bBw96YfKxY75M/H0JZw==
+
 "@tanstack/query-core@5.28.9":
   version "5.28.9"
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.28.9.tgz#170a7a8794ab73aeffbaf711ac62126479a5d026"
@@ -2342,7 +2354,7 @@ prelude-ls@^1.2.1:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -2378,6 +2390,13 @@ react-hook-form@^7.51.0:
   version "7.51.0"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.51.0.tgz#757ae71b37c26e00590bd3788508287dcc5ecdaf"
   integrity sha512-BggOy5j58RdhdMzzRUHGOYhSz1oeylFAv6jUSG86OvCIvlAvS7KvnRY7yoAf2pfEiPN7BesnR0xx73nEk3qIiw==
+
+react-id-swiper@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-id-swiper/-/react-id-swiper-4.0.0.tgz#eed938c5a4bf464a5cd7316a1bf6778581f47f2f"
+  integrity sha512-BFY8VQYgc1ECkT1Ek6MYSF8MADjWYZctdeRlMA202mjGcdjq1Bugfhg207KHTjGWKWZlY/7/nxFShqQo74RslA==
+  dependencies:
+    object-assign "^4.1.1"
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
@@ -2707,6 +2726,11 @@ sweetalert2@^11.10.7:
   version "11.10.7"
   resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.10.7.tgz#db2b8ce486f590404c761e051c7e40c80d648fae"
   integrity sha512-5Jlzrmaitay6KzU+2+LhYu9q+L4v/dZ8oZyEDH14ep0C/QilCnFLHmqAyD/Lhq/lm5DiwsOs6Tr58iv8k3wyGg==
+
+swiper@^11.1.3:
+  version "11.1.3"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-11.1.3.tgz#ff5cbeea349d207a2423c4106b1905cb12804a19"
+  integrity sha512-80MSxonyTxrGcaWj9YgvvhD8OG0B9/9IVZP33vhIEvyWvmKjnQDBieO+29wKvMx285sAtvZyrWBdkxaw6+D3aw==
 
 text-table@^0.2.0:
   version "0.2.0"

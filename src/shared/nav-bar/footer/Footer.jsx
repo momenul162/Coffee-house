@@ -20,8 +20,7 @@ const Footer = () => {
   return (
     <Box
       sx={{
-        bgcolor: "goldenrod",
-        mt: 3,
+        bgcolor: "rgba(68,42,107, 0.82)",
         pt: 3,
         borderStartStartRadius: { xs: 64, sm: 128, md: 256 },
         borderTopRightRadius: { xs: 64, sm: 128, md: 256 },
@@ -33,7 +32,7 @@ const Footer = () => {
             <Link
               style={{
                 textDecoration: "none",
-                color: "black",
+                color: "white",
               }}
               to="/"
             >
@@ -50,7 +49,7 @@ const Footer = () => {
               <Typography variant="h5">Coffee House</Typography>
             </Link>
             <CardContent>
-              <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
+              <Typography sx={{ fontSize: 12 }} color="white" gutterBottom>
                 Always ready to be your friend. Come & Contact with us to share your memorable
                 moments, to share with your best companion.
               </Typography>

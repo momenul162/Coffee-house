@@ -4,7 +4,13 @@ const FeatureCoffee = ({ img, title, body }) => {
   return (
     <Grid
       sx={{
-        ":hover": { backgroundColor: "#999", color: "blue", borderRadius: 2 },
+        transition: "transform 0.3s ease-in-out",
+        "&:hover": {
+          transform: "scale(1.2)",
+          backgroundColor: "rgba(37,20,100, 0.60)",
+          color: "white",
+          borderRadius: 2,
+        },
         cursor: "pointer",
       }}
       item

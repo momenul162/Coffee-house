@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 const NavItem = ({ onClick, nav, route, color }) => {
   return (
     <NavLink to={route} style={{ textDecoration: "none" }}>
-      <Button onClick={onClick} sx={{ my: 2, color: { color }, display: "block" }}>
+      <Button onClick={onClick} sx={{ color: { color }, display: "block", fontSize: "1.2rem" }}>
         {nav}
       </Button>
     </NavLink>

@@ -6,7 +6,12 @@ const HomeTab = () => {
   const categories = useCategory();
 
   return (
-    <TabList sx={{ display: "flex", flexWrap: "wrap" }}>
+    <TabList
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+      }}
+    >
       <Tab value={"All"}>All</Tab>
       {categories &&
         categories.map((category) => (

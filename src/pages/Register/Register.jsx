@@ -38,7 +38,7 @@ const Register = () => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ boxShadow: 3, py: 10, px: 0, mt: 4, borderRadius: 2 }}>
+    <Container maxWidth="xs" sx={{ boxShadow: 3, py: 10, px: 0, mt: 20, mb: 10, borderRadius: 2 }}>
       <Typography align="center" variant="h4" sx={{ mb: 3, color: "violet" }}>
         Sign up
       </Typography>

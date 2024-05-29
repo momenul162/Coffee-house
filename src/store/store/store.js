@@ -1,9 +1,10 @@
 import { createStore } from "easy-peasy";
-import { categoryModel, productModel, userModel } from "../model/store-model";
+import { categoryModel, currentUserModel, productModel, userModel } from "../model/store-model";
 
 const store = createStore({
   products: productModel,
   users: userModel,
+  currentUser: currentUserModel,
   categories: categoryModel,
 });
 

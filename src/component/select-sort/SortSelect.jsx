@@ -9,23 +9,26 @@ const SortSelect = ({ value, getLimit }) => {
 
   return (
     <Select
-      placeholder="Sorting by number"
+      placeholder="Sort"
       value={value}
       onChange={handleLimit}
       indicator={<KeyboardArrowDown />}
       sx={{
-        width: 240,
+        width: 100,
         [`& .${selectClasses.indicator}`]: {
           transition: "0.2s",
           [`&.${selectClasses.expanded}`]: {
             transform: "rotate(-180deg)",
           },
         },
+        "&:hover": {
+          color: "blue",
+        },
       }}
     >
-      <MenuItem value={6}>Six</MenuItem>
-      <MenuItem value={12}>Twelve</MenuItem>
-      <MenuItem value={24}>Twenty Four</MenuItem>
+      <MenuItem value={6}>6</MenuItem>
+      <MenuItem value={12}>12</MenuItem>
+      <MenuItem value={24}>24</MenuItem>
     </Select>
   );
 };
