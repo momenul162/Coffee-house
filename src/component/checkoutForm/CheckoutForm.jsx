@@ -1,20 +1,25 @@
-import { useElements, useStripe } from "@stripe/react-stripe-js";
+import {
+  CardCvcElement,
+  CardExpiryElement,
+  CardNumberElement,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
 import React, { useState } from "react";
-import Field from "./Field";
-import CardField from "./CardField";
+import { ELEMENT_OPTIONS, ErrorResult, Result } from "../../utils/payment-handle/utils";
+import "../../pages/Payment/Payment.css";
+import { useStoreState } from "easy-peasy";
+import { Button } from "@mui/joy";
 
 const CheckoutForm = () => {
-  const stripe = useStripe();
   const elements = useElements();
-  const [error, setError] = useState(null);
-  const [cardComplete, setCardComplete] = useState(false);
-  const [processing, setProcessing] = useState(false);
+  const stripe = useStripe();
+  const { user } = useStoreState((state) => state.currentUser);
+
+  const [name, setName] = useState("");
+  const [postal, setPostal] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(null);
-  const [billingDetails, setBillingDetails] = useState({
-    email: "",
-    phone: "",
-    name: "",
-  });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,110 +30,57 @@ const CheckoutForm = () => {
       return;
     }
 
-    const card = elements.getElement(CardElement);
+    const card = elements.getElement(CardNumberElement);
 
     if (card == null) {
       return;
     }
 
-    if (error) {
-      card.focus();
-      return;
-    }
-
-    if (cardComplete) {
-      setProcessing(true);
-    }
-
     const payload = await stripe.createPaymentMethod({
       type: "card",
       card,
-      billing_details: billingDetails,
+      billing_details: {
+        name,
+        address: {
+          postal_code: postal,
+        },
+      },
     });
 
-    setProcessing(false);
-
     if (payload.error) {
-      setError(payload.error);
+      console.log("[error]", payload.error);
+      setErrorMessage(payload.error.message);
+      setPaymentMethod(null);
     } else {
+      console.log("[PaymentMethod]", payload.paymentMethod);
       setPaymentMethod(payload.paymentMethod);
+      setErrorMessage(null);
     }
   };
 
-  const reset = () => {
-    setError(null);
-    setProcessing(false);
-    setPaymentMethod(null);
-    setBillingDetails({
-      email: "",
-      phone: "",
-      name: "",
-    });
-  };
-
-  return paymentMethod ? (
-    <div className="Result">
-      <div className="ResultTitle" role="alert">
-        Payment successful
-      </div>
-      <div className="ResultMessage">
-        Thanks for trying Stripe Elements. No money was charged, but we generated a PaymentMethod:{" "}
-        {paymentMethod.id}
-      </div>
-      <ResetButton onClick={reset} />
-    </div>
-  ) : (
-    <form className="Form" onSubmit={handleSubmit}>
-      <fieldset className="FormGroup">
-        <Field
-          label="Name"
-          id="name"
-          type="text"
-          placeholder="Jane Doe"
-          required
-          autoComplete="name"
-          value={billingDetails.name}
-          onChange={(e) => {
-            setBillingDetails({ ...billingDetails, name: e.target.value });
-          }}
-        />
-        <Field
-          label="Email"
-          id="email"
-          type="email"
-          placeholder="janedoe@gmail.com"
-          required
-          autoComplete="email"
-          value={billingDetails.email}
-          onChange={(e) => {
-            setBillingDetails({ ...billingDetails, email: e.target.value });
-          }}
-        />
-        <Field
-          label="Phone"
-          id="phone"
-          type="tel"
-          placeholder="(941) 555-0123"
-          required
-          autoComplete="tel"
-          value={billingDetails.phone}
-          onChange={(e) => {
-            setBillingDetails({ ...billingDetails, phone: e.target.value });
-          }}
-        />
-      </fieldset>
-      <fieldset className="FormGroup">
-        <CardField
-          onChange={(e) => {
-            setError(e.error);
-            setCardComplete(e.complete);
-          }}
-        />
-      </fieldset>
-      {error && <ErrorMessage>{error.message}</ErrorMessage>}
-      <SubmitButton processing={processing} error={error} disabled={!stripe}>
-        Pay $25
-      </SubmitButton>
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="cardNumber">Card Number</label>
+      <CardNumberElement id="cardNumber" options={ELEMENT_OPTIONS} />
+      <label htmlFor="expiry">Card Expiration</label>
+      <CardExpiryElement id="expiry" options={ELEMENT_OPTIONS} />
+      <label htmlFor="cvc">CVC</label>
+      <CardCvcElement id="cvc" options={ELEMENT_OPTIONS} />
+      <label htmlFor="postal">Postal Code</label>
+      <input
+        id="postal"
+        required
+        placeholder="12345"
+        value={postal}
+        onChange={(e) => {
+          setPostal(e.target.value);
+        }}
+      />
+      {errorMessage && <ErrorResult>{errorMessage}</ErrorResult>}
+      {paymentMethod && <Result>Got PaymentMethod: {paymentMethod.id}</Result>}
+      <Button fullWidth={true} type="submit" disabled={!stripe}>
+        Pay
+      </Button>
     </form>
   );
 };

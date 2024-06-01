@@ -1,6 +1,7 @@
 import React from "react";
 
-const Field = ({ label, id, type, placeholder, required, autoComplete, value, onChange }) => {
+const Field = ({ label, id, type, defaultValue, required, autoComplete, value, onChange }) => {
+  console.log(defaultValue);
   return (
     <div className="FormRow">
       <label htmlFor={id} className="FormRowLabel">
@@ -10,7 +11,7 @@ const Field = ({ label, id, type, placeholder, required, autoComplete, value, on
         className="FormRowInput"
         id={id}
         type={type}
-        placeholder={placeholder}
+        defaultValue={defaultValue}
         required={required}
         autoComplete={autoComplete}
         value={value}

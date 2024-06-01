@@ -53,7 +53,7 @@ const ProductCard = ({ item }) => {
                 minWidth: 200,
                 transition: "transform 0.3s ease-in-out",
                 "&:hover": {
-                  transform: "scale(1.2)",
+                  transform: "scale(1.1)",
                 },
                 borderRadius: 10,
               }}
