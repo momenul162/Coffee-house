@@ -129,7 +129,7 @@ const NavBar = () => {
                 nav="Dashboard"
                 onClick={handleCloseNavMenu}
                 color={"black"}
-                route={"/dashboard"}
+                route={"/dashboard/overview"}
               />
             )}
             <Badge badgeContent={carts.length}>
@@ -139,7 +139,7 @@ const NavBar = () => {
         </Box>
         <Box sx={{ display: { xs: "none", md: "flex" }, justifyContent: "space-evenly" }}>
           <NavItem nav="Products" color={"white"} route={"/products"} />
-          {user.email && <NavItem nav="Dashboard" color={"white"} route={"/dashboard"} />}
+          {user.email && <NavItem nav="Dashboard" color={"white"} route={"/dashboard/overview"} />}
           <Badge badgeContent={carts.length}>
             <NavItem nav="🛒" color={"white"} route={"/api/carts"} />
           </Badge>

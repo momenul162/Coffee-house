@@ -11,7 +11,9 @@ const DetailsProduct = () => {
   return (
     <Container sx={{ backgroundColor: "#F4F3F0", my: 10, py: 4 }}>
       <Link to="/">
-        <Typography sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+        <Typography
+          sx={{ display: "flex", alignItems: "center", mb: 2, "&:hover": { color: "Highlight" } }}
+        >
           <KeyboardBackspaceIcon /> Back to Home
         </Typography>
       </Link>

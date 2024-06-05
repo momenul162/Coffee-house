@@ -26,13 +26,13 @@ const Subscribe = () => {
   };
 
   return (
-    <Box sx={{ mt: 10, position: "absolute", bottom: -310, left: "15%", right: "15%" }}>
+    <Box sx={{ mt: 10, position: "absolute", bottom: -390, left: "10%", right: "10%" }}>
       <form onSubmit={handleSubmit} id="demo">
         <FormControl
           sx={{
-            maxWidth: { xs: "90%", sm: "40%", md: "55%" },
-            px: { xs: 2, md: 16 },
-            py: { xs: 1, md: 10 },
+            maxWidth: { xs: "100%", sm: "85%", lg: "100%" },
+            px: { xs: 1, sm: 6, md: 10 },
+            py: { xs: 3, sm: 4, md: 5 },
             mx: "auto",
             bgcolor: "rgba(37,20,100, 0.60)",
             borderRadius: "15px 15px 0 0",
@@ -51,7 +51,7 @@ const Subscribe = () => {
             Join our Coffee House
           </FormLabel>
           <Input
-            sx={{ "--Input-decoratorChildHeight": "45px" }}
+            sx={{ "--Input-decoratorChildHeight": "50px" }}
             placeholder="example@gmail.com"
             type="email"
             required
@@ -77,7 +77,7 @@ const Subscribe = () => {
           )}
 
           {data.status === "sent" && (
-            <FormHelperText sx={(theme) => ({ color: theme.vars.palette.primary[400] })}>
+            <FormHelperText sx={(theme) => ({ color: theme.vars.palette.success[200] })}>
               Thank you for your Subscription!
             </FormHelperText>
           )}

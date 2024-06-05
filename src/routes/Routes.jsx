@@ -13,6 +13,7 @@ import DetailsProduct from "../pages/Home/details-product/DetailsProduct";
 import Carts from "../pages/Carts/Carts";
 import CartLayout from "../layout/CartLayout";
 import Payment from "../pages/Payment/Payment";
+import Overview from "../pages/dashboard/Overview/Overview";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
     path: "dashboard",
     element: <DashboardLayout />,
     children: [
+      {
+        path: "overview",
+        element: <Overview />,
+      },
       {
         path: "users",
         element: <AllUser />,
