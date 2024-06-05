@@ -115,15 +115,15 @@ const CheckoutForm = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{ my: 4 }}>
       <Link to="/">
         <Typography
-          sx={{ display: "flex", alignItems: "center", mt: 2, "&:hover": { color: "Highlight" } }}
+          sx={{ display: "flex", alignItems: "center", mb: 4, "&:hover": { color: "Highlight" } }}
         >
           <KeyboardBackspaceIcon /> Back to Home
         </Typography>
       </Link>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="payment-form">
         <label htmlFor="cardNumber">Card Number</label>
         <CardNumberElement
           id="cardNumber"

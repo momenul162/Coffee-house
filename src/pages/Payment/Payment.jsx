@@ -13,9 +13,7 @@ const Payment = () => {
     ],
   };
 
-  const stripePromise = loadStripe(
-    "pk_test_51PMpQrRsirl7iyu7sUZjQj8fd2rE3OGM1u9Q0PGD733YUMydTs3TUEauOIvhvYVN9xtKWKB45SLpBpbGi0913if300eUbID1Gq"
-  );
+  const stripePromise = loadStripe(`${import.meta.env.VITE_stripe_PK}`);
 
   return (
     <Container

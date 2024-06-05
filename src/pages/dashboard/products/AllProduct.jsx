@@ -11,7 +11,6 @@ import Swal from "sweetalert2";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { Box, Stack } from "@mui/joy";
 import CustomTableRow from "../../../component/table-row/TableRow";
-import { baseURL } from "../../../utils/baseURL";
 
 const AllProduct = () => {
   const [page, setPage] = useState(1);
@@ -71,7 +70,7 @@ const AllProduct = () => {
           </TableHead>
           <TableBody>
             {items?.map((item) => (
-              <CustomTableRow item={item} getDeleteData={handleRemove} />
+              <CustomTableRow key={item._id} item={item} getDeleteData={handleRemove} />
             ))}
           </TableBody>
         </Table>

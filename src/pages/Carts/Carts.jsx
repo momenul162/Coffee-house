@@ -28,6 +28,8 @@ const Carts = () => {
     }
   }, [user.email]);
 
+  console.log(carts);
+
   const totalPrice = carts?.reduce((acc, cur) => acc + cur.itemId.price * cur.quantity, 0);
 
   return (

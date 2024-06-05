@@ -14,10 +14,13 @@ import FormField from "../../../component/FormField";
 import axios from "axios";
 import Swal from "sweetalert2";
 import useCategory from "../../../hooks/useCategory";
+import { useNavigate } from "react-router-dom";
+import { baseURL } from "../../../utils/baseURL";
 
 const hosting_key = import.meta.env.VITE_img_hosting_key;
 
 const AddItem = () => {
+  const navigate = useNavigate();
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       name: "",
@@ -35,7 +38,6 @@ const AddItem = () => {
   const img_hosting_url = `https://api.imgbb.com/1/upload?key=${hosting_key}`;
 
   const onValid = async (data) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("image", data.image);
 
@@ -51,9 +53,10 @@ const AddItem = () => {
             const { name, supplier, price, category, taste, details } = data;
             const newItem = { name, price, supplier, category, taste, details, image: imgURL };
 
-            axios.post(item_upload_url, newItem).then((data) => {
+            baseURL.post(item_upload_url, newItem).then((data) => {
               if (data.status === 200) {
                 reset();
+                navigate("/dashboard/products");
                 Swal.fire({
                   position: "center",
                   icon: "success",

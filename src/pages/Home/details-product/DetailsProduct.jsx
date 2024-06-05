@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Box, Container, Typography } from "@mui/material";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import useOneProduct from "../../../hooks/useOneProduct";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 const DetailsProduct = () => {
   const { id } = useParams();
-  const product = useOneProduct({ id });
+  const { product } = useStoreState((state) => state.product);
+  const { fetchProduct } = useStoreActions((actions) => actions.product);
+
+  useEffect(() => {
+    fetchProduct({ productId: id });
+  }, [id]);
 
   return (
     <Container sx={{ backgroundColor: "#F4F3F0", my: 10, py: 4 }}>

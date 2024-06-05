@@ -1,6 +1,5 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import useProducts from "../../../hooks/useProducts";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -15,27 +14,32 @@ import { Controller, useForm } from "react-hook-form";
 import FormField from "../../../component/FormField";
 import Swal from "sweetalert2";
 import useCategory from "../../../hooks/useCategory";
-import { baseURL } from "../../../utils/baseURL";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 const Update = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const categories = useCategory();
   const { control, handleSubmit, reset } = useForm({});
+  const { product } = useStoreState((state) => state.product);
+  const { fetchProduct } = useStoreActions((actions) => actions?.product);
+  const { updateProduct } = useStoreActions((actions) => actions?.products);
+  console.log(product);
 
-  // const product = products?.find((item) => item._id === id);
+  useEffect(() => {
+    fetchProduct({ productId: id });
+  }, [fetchProduct, id]);
 
   const onValid = async (data) => {
-    baseURL.patch(`/admin/api/products/${id}`, data).then((data) => {
-      if (data.status === 200) {
-        reset();
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Product update successfully",
-          showConfirmButton: false,
-          timer: 1000,
-        });
-      }
+    await updateProduct({ productId: id, data, page: 1, limit: 10 });
+    reset();
+    navigate("/dashboard/products");
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Product update successfully",
+      showConfirmButton: false,
+      timer: 1000,
     });
   };
 
