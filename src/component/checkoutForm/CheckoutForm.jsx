@@ -136,6 +136,7 @@ const CheckoutForm = () => {
         <CardCvcElement id="cvc" className={styles.cvc} options={ELEMENT_OPTIONS} />
         <label htmlFor="postal">Postal Code</label>
         <input
+          className={styles.postal}
           id="postal"
           required
           placeholder="12345"

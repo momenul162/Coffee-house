@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { Box, Container, Typography } from "@mui/material";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useStoreActions, useStoreState } from "easy-peasy";
+import Aos from "aos";
 
 const DetailsProduct = () => {
   const { id } = useParams();
@@ -12,6 +13,10 @@ const DetailsProduct = () => {
   useEffect(() => {
     fetchProduct({ productId: id });
   }, [id]);
+
+  Aos.init({
+    duration: 1200,
+  });
 
   return (
     <Container sx={{ backgroundColor: "#F4F3F0", my: 10, py: 4 }}>
@@ -30,10 +35,10 @@ const DetailsProduct = () => {
           gap: 4,
         }}
       >
-        <Box>
+        <Box data-aos="fade-right">
           <img height={455} width={355} src={product?.image} alt="" />
         </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box data-aos="fade-left" sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Typography variant="h4">Name: {product?.name}</Typography>
           <Typography variant="h4">Supplier: {product?.supplier}</Typography>
           <Typography variant="h4">Taste: {product?.taste}</Typography>

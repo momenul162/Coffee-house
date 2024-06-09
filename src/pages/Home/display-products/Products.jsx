@@ -58,7 +58,7 @@ const Products = () => {
           )}
         </Typography>
       )}
-      <Grid container rowSpacing={2} columnSpacing={{ xs: 2, lg: 4, md: 3 }}>
+      <Grid container id="products" rowSpacing={2} columnSpacing={{ xs: 2, lg: 4, md: 3 }}>
         {tab === "All"
           ? items?.map((item) => <ProductCard key={item._id} item={item} />)
           : categoryByItem?.map((item) => <ProductCard key={item._id} item={item} />)}

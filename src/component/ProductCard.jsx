@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useStoreState } from "easy-peasy";
 import { baseURL } from "../utils/baseURL";
 import Swal from "sweetalert2";
+import Aos from "aos";
 
 const ProductCard = ({ item }) => {
   const { user } = useStoreState((state) => state.currentUser);
@@ -35,9 +36,14 @@ const ProductCard = ({ item }) => {
     });
   };
 
+  Aos.init({
+    duration: 1200,
+  });
+
   return (
-    <Grid item lg={4} md={6} xs={12}>
+    <Grid item lg={3} md={4} sm={6} xs={12}>
       <Card
+        data-aos="zoom-in"
         sx={{
           width: 320,
           maxWidth: "100%",

@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { Box, Modal } from "@mui/joy";
 import { useStoreActions, useStoreState } from "easy-peasy";
+import Aos from "aos";
 
 const AllUser = () => {
   const { users } = useStoreState((state) => state.users);
@@ -46,6 +47,10 @@ const AllUser = () => {
     }
   };
 
+  Aos.init({
+    duration: 1200,
+  });
+
   return (
     <Container>
       <TableContainer component={Paper}>
@@ -64,7 +69,7 @@ const AllUser = () => {
           <TableBody>
             {users &&
               users.map((user) => (
-                <StyledTableRow key={user._id}>
+                <StyledTableRow data-aos="fade-down" key={user._id}>
                   <StyledTableCell component="th" scope="row">
                     {user.name}
                   </StyledTableCell>

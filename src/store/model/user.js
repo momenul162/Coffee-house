@@ -17,6 +17,15 @@ export const userModel = {
     }
   }),
 
+  updateUser: thunk(async (actions, { userId, roles }) => {
+    try {
+      await baseURL.patch(`/admin/api/users/${userId}`, { roles });
+      actions.fetchUser();
+    } catch (error) {
+      console.log(error);
+    }
+  }),
+
   deleteUser: thunk(async (actions, payload) => {
     try {
       await baseURL.delete(`/admin/api/users/${payload.userId}`);

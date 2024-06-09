@@ -5,6 +5,7 @@ import FormHelperText from "@mui/joy/FormHelperText";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import { Box } from "@mui/joy";
+import Aos from "aos";
 
 const Subscribe = () => {
   const [data, setData] = React.useState({
@@ -25,14 +26,26 @@ const Subscribe = () => {
     }
   };
 
+  Aos.init({
+    duration: 1200,
+  });
+
   return (
-    <Box sx={{ mt: 10, position: "absolute", bottom: -390, left: "10%", right: "10%" }}>
+    <Box
+      data-aos="fade-down"
+      sx={{
+        position: "absolute",
+        bottom: -215,
+        left: { xs: "10%", sm: "15%", md: "20%", lg: "25%" },
+        right: { xs: "10%", sm: "15%", md: "20%", lg: "25%" },
+      }}
+    >
       <form onSubmit={handleSubmit} id="demo">
         <FormControl
           sx={{
-            maxWidth: { xs: "100%", sm: "85%", lg: "100%" },
-            px: { xs: 1, sm: 6, md: 10 },
-            py: { xs: 3, sm: 4, md: 5 },
+            maxWidth: { xs: "100%", sm: "100%", lg: "100%" },
+            px: { xs: 1, sm: 4, md: 8, lg: 10 },
+            py: { xs: 2, sm: 3, md: 4, lg: 6 },
             mx: "auto",
             bgcolor: "rgba(37,20,100, 0.60)",
             borderRadius: "15px 15px 0 0",

@@ -9,12 +9,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import img from "../../assets/coffee-logo.png";
 import NavItem from "../../component/NavItem";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { Badge } from "@mui/joy";
+import { Badge, Button } from "@mui/joy";
 import { baseURL } from "../../utils/baseURL";
+import Aos from "aos";
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -55,6 +56,10 @@ const NavBar = () => {
     setAnchorElUser(null);
   };
 
+  Aos.init({
+    duration: 1200,
+  });
+
   return (
     <AppBar position="fixed">
       <Toolbar
@@ -66,6 +71,7 @@ const NavBar = () => {
         }}
       >
         <Link
+          data-aos="zoom-out"
           style={{
             textDecoration: "none",
             color: "white",
@@ -118,36 +124,16 @@ const NavBar = () => {
               display: { xs: "block", md: "none" },
             }}
           >
-            <NavItem
-              nav="Products"
-              onClick={handleCloseNavMenu}
-              color={"black"}
-              route={"/products"}
-            />
-            {user.email && (
-              <NavItem
-                nav="Dashboard"
-                onClick={handleCloseNavMenu}
-                color={"black"}
-                route={"/dashboard/overview"}
-              />
-            )}
-            <Badge badgeContent={carts.length}>
-              <NavItem nav="🛒" onClick={handleCloseNavMenu} color={"black"} route={"/api/carts"} />
-            </Badge>
+            <NavItem carts={carts} user={user} />
           </Menu>
         </Box>
         <Box sx={{ display: { xs: "none", md: "flex" }, justifyContent: "space-evenly" }}>
-          <NavItem nav="Products" color={"white"} route={"/products"} />
-          {user.email && <NavItem nav="Dashboard" color={"white"} route={"/dashboard/overview"} />}
-          <Badge badgeContent={carts.length}>
-            <NavItem nav="🛒" color={"white"} route={"/api/carts"} />
-          </Badge>
+          <NavItem carts={carts} user={user} />
         </Box>
 
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <IconButton data-aos="zoom-out" onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar alt={user?.name} src="/static/images/avatar/2.jpg" />
             </IconButton>
           </Tooltip>
@@ -176,16 +162,17 @@ const NavBar = () => {
               }}
             >
               {user.email ? (
-                <NavItem
-                  onClick={handleLogout}
-                  nav={"Log out"}
-                  route={"/auth/login"}
-                  color={"black"}
-                />
+                <NavLink to="/auth/login" onClick={handleLogout} style={{ textDecoration: "none" }}>
+                  <Button sx={{ display: "block", fontSize: "1.2rem" }}>Log Out</Button>
+                </NavLink>
               ) : (
-                <NavItem nav={"Login"} route={"/auth/login"} color={"black"} />
+                <NavLink to="/auth/login" style={{ textDecoration: "none" }}>
+                  <Button sx={{ display: "block", fontSize: "1.2rem" }}>Login</Button>
+                </NavLink>
               )}
-              <NavItem nav={"register"} route={"/auth/register"} color={"black"} />
+              <NavLink to="/auth/register" style={{ textDecoration: "none" }}>
+                <Button sx={{ display: "block", fontSize: "1.2rem" }}>Register</Button>
+              </NavLink>
             </MenuItem>
           </Menu>
         </Box>

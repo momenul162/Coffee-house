@@ -8,10 +8,14 @@ import Typography from "@mui/joy/Typography";
 import img from "../../../assets/coffees/coffee-card.jpg";
 import { Box } from "@mui/joy";
 import { Link } from "react-router-dom";
+import Aos from "aos";
 
 const CoffeeCard = () => {
+  Aos.init({
+    duration: 1200,
+  });
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", mt: 10, mb: 36 }}>
+    <Box sx={{ display: "flex", justifyContent: "center", mt: 10, mb: 25 }}>
       <Card
         size="lg"
         orientation="horizontal"
@@ -27,6 +31,7 @@ const CoffeeCard = () => {
       >
         <CardOverflow>
           <img
+            data-aos="fade-right"
             style={{
               marginLeft: "20px",
               maxWidth: "100%",
@@ -40,7 +45,7 @@ const CoffeeCard = () => {
           />
         </CardOverflow>
         <CardContent sx={{ gap: 1.5, minWidth: "50%" }}>
-          <CardContent>
+          <CardContent data-aos="fade-left">
             <Typography level="title-lg">Why Our Coffee is Special?</Typography>
             <Typography fontSize="sm" sx={{ mt: 0.5 }}>
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quibusdam illum recusandae
@@ -52,6 +57,7 @@ const CoffeeCard = () => {
           </CardContent>
           <Link target="_blank" to="https://en.wikipedia.org/wiki/Coffee">
             <Button
+              data-aos="fade-left"
               variant="outlined"
               color="primary"
               sx={{

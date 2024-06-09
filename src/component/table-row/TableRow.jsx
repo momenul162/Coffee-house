@@ -4,14 +4,19 @@ import { IconButton } from "@mui/joy";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import Aos from "aos";
 
 const CustomTableRow = ({ item, getDeleteData }) => {
   const handleRemove = (item) => {
     getDeleteData(item);
   };
 
+  Aos.init({
+    duration: 1200,
+  });
+
   return (
-    <StyledTableRow>
+    <StyledTableRow data-aos="fade-down">
       <StyledTableCell align="left">
         <img width={100} src={item?.image} alt="" />
       </StyledTableCell>

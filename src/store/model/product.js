@@ -18,7 +18,6 @@ export const productModel = {
   }),
 
   updateProduct: thunk(async (actions, { productId, data, page, limit }) => {
-    console.log("[productId] ", productId, "[data] ", data);
     try {
       await baseURL.patch(`/admin/api/products/${productId}`, data);
       actions.fetchProducts({ page, limit });

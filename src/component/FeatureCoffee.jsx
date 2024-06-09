@@ -1,8 +1,14 @@
 import { Box, Grid, Typography } from "@mui/material";
+import Aos from "aos";
 
 const FeatureCoffee = ({ img, title, body }) => {
+  Aos.init({
+    duration: 1200,
+  });
+
   return (
     <Grid
+      data-aos="zoom-in"
       sx={{
         transition: "transform 0.3s ease-in-out",
         "&:hover": {
