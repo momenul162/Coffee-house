@@ -34,6 +34,11 @@ const Products = () => {
 
   const categoryByItem = items?.filter((item) => item.category.name === tab);
 
+  let pageCount = Math.ceil(totalProduct / limit);
+  if (isNaN(pageCount) || pageCount < 1) {
+    pageCount = 1;
+  }
+
   return (
     <Container maxWidth={"xl"} sx={{ mt: 4 }}>
       <Tabs
@@ -67,7 +72,7 @@ const Products = () => {
         <Pagination
           onChange={handlePage}
           page={page}
-          count={Math.ceil(totalProduct / limit)}
+          count={pageCount}
           variant="outlined"
           shape="rounded"
           color="primary"

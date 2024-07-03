@@ -5,10 +5,14 @@ import FormField from "../../component/FormField";
 import Swal from "sweetalert2";
 import { baseURL } from "../../utils/baseURL";
 import { useStoreActions } from "easy-peasy";
+import { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { fetchCurrentUser } = useStoreActions((actions) => actions.currentUser);
+  const { setUser } = useStoreActions((actions) => actions.currentUser);
+  const { fetchCart } = useStoreActions((actions) => actions.carts);
+  const [error, setError] = useState(null);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       email: "",
@@ -16,27 +20,28 @@ const Login = () => {
     },
   });
 
-  const onValid = async (data) => {
+  const onValid = async (newUser) => {
     try {
-      if (data.email && data.password) {
-        const res = await baseURL.post("/auth/login", data);
+      if (newUser.email && newUser.password) {
+        const { data } = await axios.post("http://localhost:4000/auth/login", newUser);
 
-        if (res.data.token) {
-          localStorage.setItem("jwt-access-token", res.data.token);
+        if (data.user.token) {
+          localStorage.setItem("jwt-access-token", data?.user.token);
           Swal.fire({
             position: "center",
             icon: "success",
-            title: `${res.data.message}`,
+            title: `Login Successfully`,
             showConfirmButton: false,
             timer: 1000,
           });
-          fetchCurrentUser();
+          setUser(data?.user?.user);
+          fetchCart({ userId: data?.user?.user._id });
           navigate("/");
           reset();
         }
       }
     } catch (e) {
-      console.log(e.message);
+      setError(e.response.data.message);
     }
   };
 
@@ -49,7 +54,7 @@ const Login = () => {
         onSubmit={handleSubmit(onValid)}
         component="form"
         sx={{
-          "& > :not(style)": { m: 1, width: "50ch" },
+          "& > :not(style)": { m: 1 },
           display: "flex",
           flexDirection: "column",
         }}
@@ -66,6 +71,11 @@ const Login = () => {
           control={control}
           render={({ field }) => <FormField {...field} label="Password" type="password" />}
         />
+        {error && (
+          <Typography variant="body2" color="red">
+            {error}
+          </Typography>
+        )}
         <Button variant="outlined" type="submit">
           Login
         </Button>

@@ -1,18 +1,25 @@
 import { action, thunk } from "easy-peasy";
 import { baseURL } from "../../utils/baseURL";
+import axios from "axios";
 
 export const categoryModel = {
   categories: [],
+  error: null,
+
+  setError: action((state, payload) => {
+    state.error = payload;
+  }),
 
   setCategory: action((state, payload) => {
     state.categories = payload;
   }),
   fetchCategories: thunk(async (actions, payload) => {
     try {
-      const { data } = await baseURL.get("/api/categories", payload);
+      const { data } = await axios.get("http://localhost:4000/api/categories", payload);
       actions?.setCategory(data);
+      actions?.setError(null);
     } catch (e) {
-      console.log("Error fetching categories:", e);
+      actions.setError(e.response?.data?.message);
     }
   }),
 };

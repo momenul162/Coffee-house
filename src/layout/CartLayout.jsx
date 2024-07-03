@@ -1,14 +1,13 @@
 import React from "react";
 import NavBar from "../shared/nav-bar/NavBar";
-import Carts from "../pages/Carts/Carts";
-import Footer from "../shared/nav-bar/footer/Footer";
-import { Container } from "@mui/joy";
+import { Outlet } from "react-router-dom";
+import Footer from "../shared/footer/Footer";
 
 const CartLayout = () => {
   return (
     <div>
       <NavBar />
-      <Carts />
+      <Outlet />
       <Footer />
     </div>
   );

@@ -13,8 +13,7 @@ import { Link, NavLink } from "react-router-dom";
 import img from "../../assets/coffee-logo.png";
 import NavItem from "../../component/NavItem";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { Badge, Button } from "@mui/joy";
-import { baseURL } from "../../utils/baseURL";
+import { Button } from "@mui/joy";
 import Aos from "aos";
 
 const NavBar = () => {
@@ -22,23 +21,23 @@ const NavBar = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { user } = useStoreState((state) => state.currentUser);
   const { fetchCurrentUser } = useStoreActions((actions) => actions.currentUser);
-  const [carts, setCarts] = useState([]);
+  const { setUser } = useStoreActions((actions) => actions.currentUser);
+  const { fetchCart } = useStoreActions((actions) => actions.carts);
+  const { setCarts } = useStoreActions((actions) => actions.carts);
+  const { carts } = useStoreState((state) => state.carts);
 
   useEffect(() => {
-    if (user?.email) {
-      baseURL.get(`/api/carts/${user?._id}`).then((res) => {
-        setCarts(res.data);
-      });
-    }
-  }, [user?.email]);
+    fetchCart({ userId: user?._id });
+  }, [fetchCart, !carts]);
 
   useEffect(() => {
     fetchCurrentUser();
-  }, [fetchCurrentUser]);
+  }, [fetchCurrentUser, !user]);
 
   const handleLogout = () => {
+    setUser({});
+    setCarts([]);
     localStorage.removeItem("jwt-access-token");
-    fetchCurrentUser();
   };
 
   const handleOpenNavMenu = (event) => {
@@ -127,7 +126,12 @@ const NavBar = () => {
             <NavItem carts={carts} user={user} />
           </Menu>
         </Box>
-        <Box sx={{ display: { xs: "none", md: "flex" }, justifyContent: "space-evenly" }}>
+        <Box
+          sx={{
+            display: { xs: "none", md: "flex" },
+            justifyContent: "space-evenly",
+          }}
+        >
           <NavItem carts={carts} user={user} />
         </Box>
 
@@ -159,20 +163,51 @@ const NavBar = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "start",
+                gap: 1,
+                bgcolor: "rgba(68,42,107, 0.96)",
               }}
             >
               {user.email ? (
-                <NavLink to="/auth/login" onClick={handleLogout} style={{ textDecoration: "none" }}>
-                  <Button sx={{ display: "block", fontSize: "1.2rem" }}>Log Out</Button>
-                </NavLink>
+                <>
+                  <NavLink to="#" style={{ textDecoration: "none" }}>
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        fontSize: "1.1rem",
+                      }}
+                    >
+                      Profile
+                    </Button>
+                  </NavLink>
+                  <NavLink
+                    to="/auth/login"
+                    onClick={handleLogout}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        fontSize: "1.1rem",
+                      }}
+                    >
+                      Log Out
+                    </Button>
+                  </NavLink>
+                </>
               ) : (
-                <NavLink to="/auth/login" style={{ textDecoration: "none" }}>
-                  <Button sx={{ display: "block", fontSize: "1.2rem" }}>Login</Button>
-                </NavLink>
+                <>
+                  <NavLink to="/auth/login" style={{ textDecoration: "none" }}>
+                    <Button variant="outlined" sx={{ fontSize: "1.1rem" }}>
+                      Login
+                    </Button>
+                  </NavLink>
+                  <NavLink to="/auth/register" style={{ textDecoration: "none" }}>
+                    <Button variant="outlined" sx={{ fontSize: "1.1rem" }}>
+                      Register
+                    </Button>
+                  </NavLink>
+                </>
               )}
-              <NavLink to="/auth/register" style={{ textDecoration: "none" }}>
-                <Button sx={{ display: "block", fontSize: "1.2rem" }}>Register</Button>
-              </NavLink>
             </MenuItem>
           </Menu>
         </Box>

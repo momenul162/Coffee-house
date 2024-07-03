@@ -1,36 +1,25 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Chip,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/joy";
-import { useStoreState } from "easy-peasy";
-import React, { useEffect, useState } from "react";
+import { Button, Card, CardActions, CardContent, Container, Grid, Typography } from "@mui/joy";
+import { useStoreActions, useStoreState } from "easy-peasy";
+import React, { useEffect } from "react";
 import Table from "@mui/joy/Table";
 import Sheet from "@mui/joy/Sheet";
-import { baseURL } from "../../utils/baseURL";
 import { Link } from "react-router-dom";
+import Aos from "aos";
 
 const Carts = () => {
   const { user } = useStoreState((state) => state.currentUser);
-  const [carts, setCarts] = useState([]);
+  const { fetchCart } = useStoreActions((actions) => actions.carts);
+  const { carts } = useStoreState((state) => state.carts);
 
   useEffect(() => {
-    if (user?.email) {
-      baseURL.get(`/api/carts/${user._id}`).then((res) => {
-        setCarts(res.data);
-      });
-    }
-  }, [user.email]);
-
-  console.log(carts);
+    fetchCart({ userId: user._id });
+  }, [user?.email]);
 
   const totalPrice = carts?.reduce((acc, cur) => acc + cur.itemId.price * cur.quantity, 0);
+
+  Aos.init({
+    duration: 1200,
+  });
 
   return (
     <Container sx={{ my: 20 }}>
@@ -61,7 +50,7 @@ const Carts = () => {
               </thead>
               <tbody>
                 {carts?.map((cart) => (
-                  <tr key={cart._id}>
+                  <tr data-aos="fade-down" key={cart._id}>
                     <td>
                       <img width={75} src={cart.itemId.image} alt={cart.itemId.name} />
                     </td>
@@ -98,7 +87,15 @@ const Carts = () => {
             </CardContent>
             <CardActions>
               <Link to={"/payments"}>
-                <Button sx={{ bgcolor: "rgba(37,20,100, 0.60)" }}>Purchase Now</Button>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    color: "rgba(68,42,107, 0.96)",
+                    ":hover": { color: "rgba(158,22,17, 0.69)", bgcolor: "rgba(68,42,107, 0.50)" },
+                  }}
+                >
+                  Purchase Now
+                </Button>
               </Link>
             </CardActions>
           </Card>

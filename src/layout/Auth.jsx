@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "../shared/nav-bar/NavBar";
 import { Outlet } from "react-router-dom";
-import Footer from "../shared/nav-bar/footer/Footer";
+import Footer from "../shared/footer/Footer";
 
 const AuthLayout = () => {
   return (

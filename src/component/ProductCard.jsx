@@ -9,31 +9,31 @@ import Typography from "@mui/joy/Typography";
 import { Grid, IconButton } from "@mui/joy";
 import { Favorite } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import { useStoreState } from "easy-peasy";
-import { baseURL } from "../utils/baseURL";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import Swal from "sweetalert2";
 import Aos from "aos";
 
 const ProductCard = ({ item }) => {
   const { user } = useStoreState((state) => state.currentUser);
+  const { postCart } = useStoreActions((actions) => actions.carts);
+  const { fetchCart } = useStoreActions((actions) => actions.carts);
   const navigate = useNavigate();
 
   const handleCart = (id) => {
-    if (!user.email) {
+    if (!user?.email) {
       navigate("/auth/login");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "আগে লগিন করুন",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      const cartItem = { userId: user._id, itemId: id };
+      postCart(cartItem);
+      fetchCart({ userId: user?._id });
     }
-    const cartItem = { userId: user._id, itemId: id };
-    baseURL.post("http://localhost:4000/api/carts", cartItem).then((res) => {
-      if (res.status === 200) {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Cart added successfully",
-          showConfirmButton: false,
-          timer: 1000,
-        });
-      }
-    });
   };
 
   Aos.init({
@@ -64,7 +64,7 @@ const ProductCard = ({ item }) => {
                 borderRadius: 10,
               }}
             >
-              <img src={item.image} loading="lazy" alt="" />
+              <img src={item.image} loading="lazy" alt={item.name} />
             </AspectRatio>
           </Link>
           <IconButton
@@ -73,11 +73,9 @@ const ProductCard = ({ item }) => {
             variant="solid"
             sx={{
               position: "absolute",
-              zIndex: 2,
               borderRadius: "50%",
               right: "1rem",
-              bottom: 0,
-              transform: "translateY(50%)",
+              bottom: "-1rem",
             }}
           >
             <Favorite />
@@ -102,9 +100,12 @@ const ProductCard = ({ item }) => {
         </Link>
         <CardOverflow>
           <Button
+            variant="soft"
             onClick={() => handleCart(item._id)}
-            variant="solid"
-            sx={{ color: "white" }}
+            sx={{
+              color: "rgba(68,42,107, 0.96)",
+              ":hover": { color: "rgba(158,22,17, 0.69)", bgcolor: "rgba(68,42,107, 0.50)" },
+            }}
             size="lg"
           >
             Add to cart

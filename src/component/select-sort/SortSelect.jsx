@@ -3,18 +3,14 @@ import { MenuItem, Select, selectClasses } from "@mui/joy";
 import React from "react";
 
 const SortSelect = ({ value, getLimit }) => {
-  const handleLimit = (e) => {
-    getLimit(e?.target?.value);
-  };
-
   return (
     <Select
       placeholder="Sort"
-      value={value}
-      onChange={handleLimit}
+      value={value || ""}
+      onChange={(e) => getLimit(e?.target?.value)}
       indicator={<KeyboardArrowDown />}
       sx={{
-        width: 100,
+        width: 140,
         [`& .${selectClasses.indicator}`]: {
           transition: "0.2s",
           [`&.${selectClasses.expanded}`]: {
@@ -22,10 +18,11 @@ const SortSelect = ({ value, getLimit }) => {
           },
         },
         "&:hover": {
-          color: "blue",
+          color: "salmon",
         },
       }}
     >
+      <MenuItem value={4}>4</MenuItem>
       <MenuItem value={6}>6</MenuItem>
       <MenuItem value={12}>12</MenuItem>
       <MenuItem value={24}>24</MenuItem>

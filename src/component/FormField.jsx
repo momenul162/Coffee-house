@@ -1,13 +1,15 @@
 import { TextField } from "@mui/material";
+import { forwardRef } from "react";
 
-const FormField = ({ label = "", defaultValue = "", type, onChange, ...props }) => {
+const FormField = forwardRef(({ label = "", type, onChange, ...props }, ref) => {
   return (
     <>
       <TextField
         id="outlined-basic"
         type={type}
         label={label}
-        defaultValue={defaultValue}
+        ref={ref}
+        value={props.name}
         onChange={onChange}
         variant="outlined"
         size="small"
@@ -15,6 +17,6 @@ const FormField = ({ label = "", defaultValue = "", type, onChange, ...props }) 
       />
     </>
   );
-};
+});
 
 export default FormField;

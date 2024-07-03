@@ -1,8 +1,14 @@
 import { action, thunk } from "easy-peasy";
 import { baseURL } from "../../utils/baseURL";
+import axios from "axios";
 
 export const productModel = {
   products: [],
+  error: null,
+
+  setError: action((state, payload) => {
+    state.error = payload;
+  }),
 
   setProducts: action((state, payload) => {
     state.products = payload;
@@ -10,10 +16,13 @@ export const productModel = {
 
   fetchProducts: thunk(async (actions, { page, limit }) => {
     try {
-      const { data } = await baseURL(`/api/products?page=${page}&limit=${limit}`);
+      const { data } = await axios.get(
+        `http://localhost:4000/api/products?page=${page}&limit=${limit}`
+      );
       actions?.setProducts(data);
+      actions.setError(null);
     } catch (e) {
-      console.log("Error fetching products:", e);
+      actions.setError(e.response?.data?.message);
     }
   }),
 
@@ -21,8 +30,9 @@ export const productModel = {
     try {
       await baseURL.patch(`/admin/api/products/${productId}`, data);
       actions.fetchProducts({ page, limit });
+      actions.setError(null);
     } catch (error) {
-      console.log(error);
+      actions.setError(error.response?.data?.message);
     }
   }),
 
@@ -30,24 +40,31 @@ export const productModel = {
     try {
       await baseURL.delete(`/admin/api/products/${productId}`);
       actions.fetchProducts({ page, limit });
+      actions.setError(null);
     } catch (error) {
-      console.log(error);
+      actions.setError(error.response?.data?.message);
     }
   }),
 };
 
 export const searchProductById = {
   product: {},
+  error: null,
+
+  setError: action((state, payload) => {
+    state.error = payload;
+  }),
 
   setProduct: action((state, payload) => {
     state.product = payload;
   }),
   fetchProduct: thunk(async (actions, { productId }) => {
     try {
-      const { data } = await baseURL(`/api/products/${productId}`);
+      const { data } = await axios.get(`http://localhost:4000/api/products/${productId}`);
       actions.setProduct(data);
+      actions.setError(null);
     } catch (error) {
-      console.log(error);
+      actions.setError(error.response?.data?.message);
     }
   }),
 };

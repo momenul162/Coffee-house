@@ -14,6 +14,10 @@ import Carts from "../pages/Carts/Carts";
 import CartLayout from "../layout/CartLayout";
 import Payment from "../pages/Payment/Payment";
 import Overview from "../pages/dashboard/Overview/Overview";
+import Orders from "../pages/dashboard/Orders/Orders";
+import MyOrders from "../pages/user-orders/MyOrders";
+import Review from "../pages/user-orders/Review";
+import ReviewForm from "../component/review-field/ReviewForm";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +32,14 @@ export const router = createBrowserRouter([
       {
         path: "/api/carts",
         element: <Carts />,
+      },
+      {
+        path: "/api/my-orders",
+        element: <MyOrders />,
+      },
+      {
+        path: "/api/reviews/:productId",
+        element: <ReviewForm />,
       },
     ],
   },
@@ -57,6 +69,10 @@ export const router = createBrowserRouter([
       {
         path: "overview",
         element: <Overview />,
+      },
+      {
+        path: "orders",
+        element: <Orders />,
       },
       {
         path: "users",

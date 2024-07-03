@@ -39,7 +39,6 @@ const CheckoutForm = () => {
   useEffect(() => {
     if (price > 0) {
       baseURL.post("/payment_intents", { price: parseFloat(price) }).then((res) => {
-        console.log(res.data);
         setClientSecret(res.data.clientSecret);
       });
     }
@@ -123,7 +122,7 @@ const CheckoutForm = () => {
           <KeyboardBackspaceIcon /> Back to Home
         </Typography>
       </Link>
-      <form onSubmit={handleSubmit} className="payment-form">
+      <form onSubmit={handleSubmit} className={styles.paymentForm}>
         <label htmlFor="cardNumber">Card Number</label>
         <CardNumberElement
           id="cardNumber"
@@ -157,7 +156,16 @@ const CheckoutForm = () => {
             Loading...
           </Button>
         ) : (
-          <Button fullWidth={true} type="submit" disabled={!stripe || !clientSecret || progress}>
+          <Button
+            fullWidth={true}
+            variant="outlined"
+            sx={{
+              color: "rgba(68,42,107, 0.96)",
+              ":hover": { color: "rgba(158,22,17, 0.69)", bgcolor: "rgba(68,42,107, 0.50)" },
+            }}
+            type="submit"
+            disabled={!stripe || !clientSecret || progress}
+          >
             Payment
           </Button>
         )}

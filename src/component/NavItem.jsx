@@ -1,12 +1,11 @@
+import { Favorite, ShoppingCart } from "@mui/icons-material";
 import { Badge } from "@mui/joy";
-import { Button } from "@mui/material";
 import Aos from "aos";
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import NavButton from "./Nav-button/NavButton";
 
 const NavItem = ({ carts, user }) => {
-  const navigate = useNavigate();
-
   Aos.init({
     duration: 1200,
   });
@@ -14,22 +13,27 @@ const NavItem = ({ carts, user }) => {
   return (
     <>
       <NavLink to="#products" style={{ textDecoration: "none" }}>
-        <Button sx={{ display: "block", fontSize: "1.2rem" }}>Products</Button>
+        <NavButton navIcon={"Products"} />
       </NavLink>
       {user.roles === "ADMIN" && (
         <NavLink to="/dashboard/overview" style={{ textDecoration: "none" }}>
-          <Button sx={{ display: "block", fontSize: "1.2rem" }}>Dashboard</Button>
+          <NavButton navIcon={"Dashboard"} />
         </NavLink>
       )}
       {user.roles !== "ADMIN" && (
-        <NavLink to="#" style={{ textDecoration: "none" }}>
-          <Button sx={{ display: "block", fontSize: "1.2rem" }}>Your Orders</Button>
+        <NavLink to="/api/my-orders" style={{ textDecoration: "none" }}>
+          <NavButton navIcon={"My Orders"} />
         </NavLink>
       )}
 
       <Badge badgeContent={carts?.length}>
         <NavLink to="/api/carts" style={{ textDecoration: "none" }}>
-          <Button sx={{ display: "block", fontSize: "1.2rem" }}>🛒</Button>
+          <NavButton navIcon={<ShoppingCart />} />
+        </NavLink>
+      </Badge>
+      <Badge badgeContent={1}>
+        <NavLink to="#" style={{ textDecoration: "none" }}>
+          <NavButton navIcon={<Favorite />} />
         </NavLink>
       </Badge>
     </>
