@@ -17,7 +17,6 @@ import Overview from "../pages/dashboard/Overview/Overview";
 import Orders from "../pages/dashboard/Orders/Orders";
 import MyOrders from "../pages/user-orders/MyOrders";
 import Review from "../pages/user-orders/Review";
-import ReviewForm from "../component/review-field/ReviewForm";
 
 export const router = createBrowserRouter([
   {
@@ -39,7 +38,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/api/reviews/:productId",
-        element: <ReviewForm />,
+        element: <Review />,
       },
     ],
   },

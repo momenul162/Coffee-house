@@ -12,8 +12,10 @@ const Carts = () => {
   const { carts } = useStoreState((state) => state.carts);
 
   useEffect(() => {
-    fetchCart({ userId: user._id });
-  }, [user?.email]);
+    if (user) {
+      fetchCart({ userId: user._id });
+    }
+  }, [user]);
 
   const totalPrice = carts?.reduce((acc, cur) => acc + cur.itemId.price * cur.quantity, 0);
 

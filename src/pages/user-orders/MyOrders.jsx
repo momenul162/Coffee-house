@@ -2,7 +2,7 @@ import { Add } from "@mui/icons-material";
 import { Button, Container, Table, Typography } from "@mui/joy";
 import Aos from "aos";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const MyOrders = () => {
@@ -11,8 +11,10 @@ const MyOrders = () => {
   const { user } = useStoreState((state) => state.currentUser);
 
   useEffect(() => {
-    fetchOrders({ userId: user._id });
-  }, [fetchOrders, user]);
+    if (user) {
+      fetchOrders({ userId: user._id });
+    }
+  }, [user]);
 
   Aos.init({
     duration: 1200,
@@ -63,7 +65,7 @@ const MyOrders = () => {
 
                     <td>
                       {order.status === "Delivered" && (
-                        <Link to={`/api/reviews/${order._id}`}>
+                        <Link to={`/api/reviews/${product._id}`}>
                           <Button variant="outlined" color="success" startDecorator={<Add />}>
                             Review
                           </Button>

@@ -2,11 +2,16 @@ import { action, thunk } from "easy-peasy";
 import { baseURL } from "../../utils/baseURL";
 
 export const cartModel = {
-  carts: [],
+  carts: null,
   error: null,
 
   setCarts: action((state, payload) => {
     state.carts = payload;
+  }),
+  addCart: action((state, payload) => {
+    const previousState = [...state.carts];
+    previousState.push(payload);
+    state.carts = previousState;
   }),
   setErrors: action((state, payload) => {
     state.error = payload;
@@ -24,8 +29,8 @@ export const cartModel = {
 
   postCart: thunk(async (actions, payload) => {
     try {
-      await baseURL.post("/api/carts", payload);
-      actions?.fetchCart(payload.userId);
+      const { data } = await baseURL.post("/api/carts", payload);
+      actions.addCart(data);
       actions?.setErrors(null);
     } catch (error) {
       actions?.setErrors(error.response.data.message);

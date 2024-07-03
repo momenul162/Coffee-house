@@ -12,30 +12,36 @@ const NavItem = ({ carts, user }) => {
 
   return (
     <>
-      <NavLink to="#products" style={{ textDecoration: "none" }}>
-        <NavButton navIcon={"Products"} />
-      </NavLink>
-      {user.roles === "ADMIN" && (
+      {user?.roles === "ADMIN" && (
         <NavLink to="/dashboard/overview" style={{ textDecoration: "none" }}>
           <NavButton navIcon={"Dashboard"} />
         </NavLink>
       )}
-      {user.roles !== "ADMIN" && (
+      {user?.roles === "USER" && (
         <NavLink to="/api/my-orders" style={{ textDecoration: "none" }}>
           <NavButton navIcon={"My Orders"} />
         </NavLink>
       )}
-
-      <Badge badgeContent={carts?.length}>
-        <NavLink to="/api/carts" style={{ textDecoration: "none" }}>
+      <NavLink to="/api/carts" style={{ textDecoration: "none" }}>
+        <Badge badgeContent={carts?.length} color="#071952">
           <NavButton navIcon={<ShoppingCart />} />
-        </NavLink>
-      </Badge>
-      <Badge badgeContent={1}>
-        <NavLink to="#" style={{ textDecoration: "none" }}>
+        </Badge>
+      </NavLink>
+      <NavLink to="#" style={{ textDecoration: "none" }}>
+        <Badge badgeContent={""} color="#071952">
           <NavButton navIcon={<Favorite />} />
-        </NavLink>
-      </Badge>
+        </Badge>
+      </NavLink>
+      {!user && (
+        <>
+          <NavLink to="/auth/login" style={{ textDecoration: "none" }}>
+            <NavButton navIcon={"Sign in"} />
+          </NavLink>
+          <NavLink to="/auth/register" style={{ textDecoration: "none" }}>
+            <NavButton navIcon={"Sign up"} />
+          </NavLink>
+        </>
+      )}
     </>
   );
 };

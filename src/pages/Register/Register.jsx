@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import FormField from "../../component/FormField";
 import Swal from "sweetalert2";
-import { baseURL } from "../../utils/baseURL";
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -16,15 +16,18 @@ const Register = () => {
     },
   });
 
-  const onValid = async (data) => {
+  const onValid = async (newData) => {
     try {
-      if (data.name && data.email && data.password) {
-        const res = await baseURL.post("/auth/register", data);
-        if (res.data) {
+      if (newData.name && newData.email && newData.password) {
+        const { data } = await axios.post("http://localhost:4000/auth/register", newData);
+
+        console.log(data);
+
+        if (data) {
           Swal.fire({
             position: "center",
             icon: "success",
-            title: `${res.data.message}`,
+            title: `${data.message}`,
             showConfirmButton: false,
             timer: 1000,
           });

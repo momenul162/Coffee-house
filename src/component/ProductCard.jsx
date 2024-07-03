@@ -16,7 +16,6 @@ import Aos from "aos";
 const ProductCard = ({ item }) => {
   const { user } = useStoreState((state) => state.currentUser);
   const { postCart } = useStoreActions((actions) => actions.carts);
-  const { fetchCart } = useStoreActions((actions) => actions.carts);
   const navigate = useNavigate();
 
   const handleCart = (id) => {
@@ -32,7 +31,6 @@ const ProductCard = ({ item }) => {
     } else {
       const cartItem = { userId: user._id, itemId: id };
       postCart(cartItem);
-      fetchCart({ userId: user?._id });
     }
   };
 

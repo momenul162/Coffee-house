@@ -1,9 +1,8 @@
 import { action, thunk } from "easy-peasy";
-import { baseURL } from "../../utils/baseURL";
 import axios from "axios";
 
 export const categoryModel = {
-  categories: [],
+  categories: null,
   error: null,
 
   setError: action((state, payload) => {

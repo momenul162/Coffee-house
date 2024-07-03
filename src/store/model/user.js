@@ -2,7 +2,7 @@ import { action, thunk } from "easy-peasy";
 import { baseURL } from "../../utils/baseURL";
 
 export const userModel = {
-  users: [],
+  users: null,
   error: null,
 
   setError: action((state, payload) => {
@@ -45,7 +45,7 @@ export const userModel = {
 };
 
 export const currentUserModel = {
-  user: {},
+  user: null,
   error: null,
 
   setUser: action((state, payload) => {

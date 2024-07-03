@@ -13,8 +13,9 @@ import { Link, NavLink } from "react-router-dom";
 import img from "../../assets/coffee-logo.png";
 import NavItem from "../../component/NavItem";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { Button } from "@mui/joy";
+import { Button, Stack } from "@mui/joy";
 import Aos from "aos";
+import NavButton from "../../component/Nav-button/NavButton";
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -27,17 +28,20 @@ const NavBar = () => {
   const { carts } = useStoreState((state) => state.carts);
 
   useEffect(() => {
-    fetchCart({ userId: user?._id });
-  }, [fetchCart, !carts]);
+    if (user) {
+      fetchCart({ userId: user?._id });
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchCurrentUser();
-  }, [fetchCurrentUser, !user]);
+  }, [!user]);
 
   const handleLogout = () => {
-    setUser({});
-    setCarts([]);
+    setUser(null);
+    setCarts(null);
     localStorage.removeItem("jwt-access-token");
+    window.location.reload();
   };
 
   const handleOpenNavMenu = (event) => {
@@ -63,21 +67,25 @@ const NavBar = () => {
     <AppBar position="fixed">
       <Toolbar
         sx={{
-          height: 90,
+          height: 80,
+          pl: 1,
           display: "flex",
-          justifyContent: "space-around",
-          bgcolor: "rgba(68,42,107, 0.96)",
+          gap: 1,
+          justifyContent: {
+            xs: "flex-start",
+            md: "space-evenly",
+            lg: "space-around",
+          },
+          bgcolor: "white",
         }}
       >
         <Link
           data-aos="zoom-out"
           style={{
             textDecoration: "none",
-            color: "white",
             display: "flex",
             alignItems: "center",
             gap: 6,
-            marginLeft: 50,
           }}
           to="/"
         >
@@ -91,17 +99,28 @@ const NavBar = () => {
             src={img}
             alt=""
           />
-          <Typography variant="h5">Coffee House</Typography>
+          <Typography
+            sx={{
+              display: "flex",
+              gap: 1,
+              fontWeight: "bold",
+
+              fontSize: { xs: "20px", sm: "25px", md: "32px", lg: "42px" },
+            }}
+          >
+            <Stack sx={{ color: "#0C1844" }}>Nexus</Stack>{" "}
+            <Stack sx={{ color: "red" }}>Coffee</Stack>{" "}
+            <Stack sx={{ color: "#0C1844" }}>House</Stack>
+          </Typography>
         </Link>
 
-        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+        <Box sx={{ display: { xs: "flex", md: "none" } }}>
           <IconButton
             size="large"
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleOpenNavMenu}
-            color="inherit"
           >
             <MenuIcon />
           </IconButton>
@@ -135,82 +154,58 @@ const NavBar = () => {
           <NavItem carts={carts} user={user} />
         </Box>
 
-        <Box sx={{ flexGrow: 0 }}>
-          <Tooltip title="Open settings">
-            <IconButton data-aos="zoom-out" onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt={user?.name} src="/static/images/avatar/2.jpg" />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            sx={{ mt: "45px" }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            <MenuItem
-              onClick={handleCloseUserMenu}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "start",
-                gap: 1,
-                bgcolor: "rgba(68,42,107, 0.96)",
+        {user && (
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton data-aos="zoom-out" onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar
+                  sx={{ border: 1 }}
+                  alt={user?.name}
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/2048px-Avatar_icon_green.svg.png"
+                />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
               }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
             >
-              {user.email ? (
+              <MenuItem
+                onClick={handleCloseUserMenu}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  gap: 1,
+                }}
+              >
                 <>
                   <NavLink to="#" style={{ textDecoration: "none" }}>
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        fontSize: "1.1rem",
-                      }}
-                    >
-                      Profile
-                    </Button>
+                    <NavButton navIcon={"Profile"} />
                   </NavLink>
                   <NavLink
                     to="/auth/login"
                     onClick={handleLogout}
                     style={{ textDecoration: "none" }}
                   >
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        fontSize: "1.1rem",
-                      }}
-                    >
-                      Log Out
-                    </Button>
+                    <NavButton navIcon={"Log out"} />
                   </NavLink>
                 </>
-              ) : (
-                <>
-                  <NavLink to="/auth/login" style={{ textDecoration: "none" }}>
-                    <Button variant="outlined" sx={{ fontSize: "1.1rem" }}>
-                      Login
-                    </Button>
-                  </NavLink>
-                  <NavLink to="/auth/register" style={{ textDecoration: "none" }}>
-                    <Button variant="outlined" sx={{ fontSize: "1.1rem" }}>
-                      Register
-                    </Button>
-                  </NavLink>
-                </>
-              )}
-            </MenuItem>
-          </Menu>
-        </Box>
+              </MenuItem>
+            </Menu>
+          </Box>
+        )}
       </Toolbar>
     </AppBar>
   );

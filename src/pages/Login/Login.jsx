@@ -11,7 +11,6 @@ import axios from "axios";
 const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useStoreActions((actions) => actions.currentUser);
-  const { fetchCart } = useStoreActions((actions) => actions.carts);
   const [error, setError] = useState(null);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -35,9 +34,9 @@ const Login = () => {
             timer: 1000,
           });
           setUser(data?.user?.user);
-          fetchCart({ userId: data?.user?.user._id });
-          navigate("/");
           reset();
+          navigate("/");
+          window.location.reload();
         }
       }
     } catch (e) {

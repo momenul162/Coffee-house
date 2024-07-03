@@ -6,6 +6,7 @@ const FormField = forwardRef(({ label = "", type, onChange, ...props }, ref) => 
     <>
       <TextField
         id="outlined-basic"
+        required
         type={type}
         label={label}
         ref={ref}

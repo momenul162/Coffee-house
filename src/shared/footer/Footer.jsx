@@ -17,6 +17,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { LocalPhone, LocationOn, Markunread } from "@mui/icons-material";
 import FooterIcon from "../../component/footer-icons/FooterIcon";
+import { Stack } from "@mui/joy";
 
 const Footer = () => {
   return (
@@ -46,7 +47,19 @@ const Footer = () => {
                 src={img}
                 alt=""
               />
-              <Typography variant="h5">Coffee House</Typography>
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  fontWeight: "bold",
+
+                  fontSize: { xs: "20px", sm: "25px", md: "32px", lg: "42px" },
+                }}
+              >
+                <Stack sx={{ color: "#0C1844" }}>Nexus</Stack>{" "}
+                <Stack sx={{ color: "red" }}>Coffee</Stack>{" "}
+                <Stack sx={{ color: "#0C1844" }}>House</Stack>
+              </Typography>
             </Link>
             <CardContent>
               <Typography sx={{ fontSize: 12 }} color="white" gutterBottom>

@@ -5,12 +5,13 @@ import React, { useEffect } from "react";
 
 const Orders = () => {
   const { allOrders } = useStoreState((state) => state?.orders);
+  const { user } = useStoreState((state) => state.currentUser);
   const { fetchAllOrders } = useStoreActions((actions) => actions.orders);
   const { updateOrder } = useStoreActions((actions) => actions.orders);
 
   useEffect(() => {
     fetchAllOrders();
-  }, [fetchAllOrders]);
+  }, [user]);
 
   const handleStatus = (id, status, userId) => {
     console.log("Status= ", status, id);
