@@ -143,7 +143,9 @@ const NavBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              <NavItem carts={carts} user={user} />
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <NavItem carts={carts} user={user} />
+              </Box>
             </Menu>
           </Box>
           <Box

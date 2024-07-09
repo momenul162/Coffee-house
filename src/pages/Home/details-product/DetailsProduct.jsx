@@ -50,8 +50,8 @@ const DetailsProduct = () => {
   });
 
   return (
-    <Container>
-      <Box sx={{ backgroundColor: "#F4F3F0", my: 10, py: 4 }}>
+    <Container maxWidth="lg" sx={{ px: 1 }}>
+      <Box sx={{ backgroundColor: "#F4F3F0", my: { xs: 6, md: 10 }, py: 4 }}>
         <Link to="/">
           <Typography
             sx={{ display: "flex", alignItems: "center", mb: 2, "&:hover": { color: "Highlight" } }}
@@ -61,10 +61,10 @@ const DetailsProduct = () => {
         </Link>
         <Box
           sx={{
-            display: "flex",
+            display: { md: "flex" },
             alignItems: "center",
             justifyContent: "center",
-            gap: 4,
+            gap: { md: 4 },
           }}
         >
           <Box data-aos="fade-right">
