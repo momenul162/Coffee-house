@@ -17,11 +17,15 @@ import Overview from "../pages/dashboard/Overview/Overview";
 import Orders from "../pages/dashboard/Orders/Orders";
 import MyOrders from "../pages/user-orders/MyOrders";
 import Review from "../pages/user-orders/Review";
+import AdminRoute from "./AdminRoute";
+import AuthenticateRoute from "./AuthenticateRoute";
+import Handle404 from "../utils/error-handler-404/Handle404";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    errorElement: <Handle404 />,
   },
 
   {
@@ -29,15 +33,15 @@ export const router = createBrowserRouter([
     element: <CartLayout />,
     children: [
       {
-        path: "/api/carts",
+        path: "carts",
         element: <Carts />,
       },
       {
-        path: "/api/my-orders",
+        path: "my-orders",
         element: <MyOrders />,
       },
       {
-        path: "/api/reviews/:productId",
+        path: "reviews/:productId",
         element: <Review />,
       },
     ],
@@ -62,7 +66,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "dashboard",
+    path: "/dashboard",
     element: <DashboardLayout />,
     children: [
       {
@@ -74,7 +78,7 @@ export const router = createBrowserRouter([
         element: <Orders />,
       },
       {
-        path: "users",
+        path: "all-user",
         element: <AllUser />,
       },
       {
@@ -82,7 +86,7 @@ export const router = createBrowserRouter([
         element: <UpdateUser />,
       },
       {
-        path: "products",
+        path: "all-product",
         element: <AllProduct />,
       },
       {
@@ -90,7 +94,7 @@ export const router = createBrowserRouter([
         element: <Update />,
       },
       {
-        path: "additem",
+        path: "add-product",
         element: <AddItem />,
       },
     ],

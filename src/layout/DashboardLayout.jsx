@@ -1,190 +1,72 @@
-import React, { useState } from "react";
+import React from "react";
+import { CssVarsProvider } from "@mui/joy/styles";
+import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
-import Drawer from "@mui/joy/Drawer";
-import Button from "@mui/joy/Button";
-import Card from "@mui/joy/Card";
-import CardContent from "@mui/joy/CardContent";
-import DialogTitle from "@mui/joy/DialogTitle";
-import DialogContent from "@mui/joy/DialogContent";
-import ModalClose from "@mui/joy/ModalClose";
-import Divider from "@mui/joy/Divider";
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import RadioGroup from "@mui/joy/RadioGroup";
-import Radio from "@mui/joy/Radio";
-import Sheet from "@mui/joy/Sheet";
+import Breadcrumbs from "@mui/joy/Breadcrumbs";
+import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
-import TuneIcon from "@mui/icons-material/TuneRounded";
+import { Container } from "@mui/joy";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import ApartmentRoundedIcon from "@mui/icons-material/ApartmentRounded";
-import MeetingRoomRoundedIcon from "@mui/icons-material/MeetingRoomRounded";
-import HotelRoundedIcon from "@mui/icons-material/HotelRounded";
-import { Link, Outlet } from "react-router-dom";
-import img from "../assets/coffee-logo.png";
-import { Container, IconButton } from "@mui/joy";
+import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import Sidebar from "../component/Sidebar";
+import Header from "../component/Header";
+import { Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
-  const [open, setOpen] = useState(false);
-  const [type, setType] = useState("Guesthouse");
-
   return (
     <Container>
-      <Box
-        maxWidth="full"
-        sx={{ bgcolor: "whitesmoke", py: 2, display: "flex", alignItems: "center" }}
-      >
-        <Button
-          variant="outlined"
-          color="neutral"
-          startDecorator={<TuneIcon />}
-          onClick={() => setOpen(true)}
-        >
-          Dashboard
-        </Button>
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "white",
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            marginLeft: 50,
-          }}
-          to="/"
-        >
+      <CssVarsProvider disableTransitionOnChange>
+        <CssBaseline />
+        <Box sx={{ display: "flex", minHeight: "100dvh" }}>
+          <Header />
+          <Sidebar />
           <Box
-            component="img"
+            component="main"
+            className="MainContent"
             sx={{
-              height: 50,
+              px: { xs: 2, md: 6 },
+              pt: {
+                xs: "calc(12px + var(--Header-height))",
+                sm: "calc(12px + var(--Header-height))",
+                md: 3,
+              },
+              pb: { xs: 2, sm: 2, md: 3 },
+              flex: 1,
               display: "flex",
-              overflow: "hidden",
+              flexDirection: "column",
+              minWidth: 0,
+              height: "100dvh",
+              gap: 1,
             }}
-            src={img}
-            alt=""
-          />
-          <Typography level="h2">Coffee House</Typography>
-        </Link>
-      </Box>
-      <Drawer
-        size="sm"
-        variant="soft"
-        open={open}
-        onClose={() => setOpen(false)}
-        slotProps={{
-          content: {
-            sx: {
-              bgcolor: "transparent",
-              p: { md: 3, sm: 0 },
-              ml: { lg: 15 },
-              boxShadow: "none",
-            },
-          },
-        }}
-      >
-        <Sheet
-          sx={{
-            borderRadius: "md",
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            height: "100%",
-            overflow: "auto",
-          }}
-        >
-          <DialogTitle>Filter</DialogTitle>
-          <ModalClose />
-          <Divider sx={{ mt: "auto" }} />
-          <DialogContent sx={{ gap: 2 }}>
-            <FormControl>
-              <FormLabel sx={{ typography: "title-md", fontWeight: "bold" }}>
-                Property type
-              </FormLabel>
-              <RadioGroup
-                value={type || ""}
-                onChange={(event) => {
-                  setType(event.target.value);
-                }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Breadcrumbs
+                size="sm"
+                aria-label="breadcrumbs"
+                separator={<ChevronRightRoundedIcon fontSize="sm" />}
+                sx={{ pl: 0 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 1.5,
-                  }}
+                <Link underline="none" color="neutral" href="#some-link" aria-label="Home">
+                  <HomeRoundedIcon />
+                </Link>
+                <Link
+                  underline="hover"
+                  color="neutral"
+                  href="#some-link"
+                  fontSize={12}
+                  fontWeight={500}
                 >
-                  {[
-                    {
-                      name: "Overview",
-                      icon: <HomeRoundedIcon />,
-                      to: "/dashboard/overview",
-                    },
-                    {
-                      name: "Orders",
-                      icon: <HomeRoundedIcon />,
-                      to: "/dashboard/orders",
-                    },
-                    {
-                      name: "Products",
-                      icon: <ApartmentRoundedIcon />,
-                      to: "/dashboard/products",
-                    },
-                    {
-                      name: "App Products",
-                      icon: <MeetingRoomRoundedIcon />,
-                      to: "/dashboard/additem",
-                    },
-                    {
-                      name: "Users",
-                      icon: <HotelRoundedIcon />,
-                      to: "/dashboard/users",
-                    },
-                  ].map((item) => (
-                    <Link onClick={() => setOpen(false)} key={item.name} to={item.to}>
-                      <Card
-                        sx={{
-                          boxShadow: "none",
-                          "&:hover": { bgcolor: "background.level1" },
-                        }}
-                      >
-                        <CardContent>
-                          {item.icon}
-                          <Typography level="title-md">{item.name}</Typography>
-                        </CardContent>
-                        <Radio
-                          disableIcon
-                          overlay
-                          checked={type === item.name}
-                          variant="outlined"
-                          color="neutral"
-                          value={item.name}
-                          sx={{ mt: -2 }}
-                          slotProps={{
-                            action: {
-                              sx: {
-                                ...(type === item.name && {
-                                  borderWidth: 2,
-                                  borderColor: "var(--joy-palette-primary-outlinedBorder)",
-                                }),
-                                "&:hover": {
-                                  bgcolor: "transparent",
-                                },
-                              },
-                            },
-                          }}
-                        />
-                      </Card>
-                    </Link>
-                  ))}
-                </Box>
-              </RadioGroup>
-            </FormControl>
-          </DialogContent>
-        </Sheet>
-      </Drawer>
-      <Box open={open}>
-        <Outlet />
-      </Box>
+                  Dashboard
+                </Link>
+                <Typography color="primary" fontWeight={500} fontSize={12}>
+                  Orders
+                </Typography>
+              </Breadcrumbs>
+            </Box>
+            <Outlet />
+          </Box>
+        </Box>
+      </CssVarsProvider>
     </Container>
   );
 };

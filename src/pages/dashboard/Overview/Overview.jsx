@@ -1,13 +1,13 @@
-import { Typography } from "@mui/joy";
+import { Box, Typography } from "@mui/joy";
 import React from "react";
 
 const Overview = () => {
   return (
-    <div>
-      <Typography variant="solid" fontSize={40}>
-        Overview page
+    <Box>
+      <Typography variant="soft" textAlign={"center"} fontSize={40}>
+        Admin Overview page upcomming
       </Typography>
-    </div>
+    </Box>
   );
 };
 

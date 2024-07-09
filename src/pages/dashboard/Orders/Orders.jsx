@@ -28,8 +28,10 @@ const Orders = () => {
 
   return (
     <Container>
+      <Typography textAlign="center" level="h3" sx={{ mb: 3, color: "violet" }}>
+        Order history
+      </Typography>
       <Table hoverRow>
-        <caption>Nutrition of your favorite menus.</caption>
         <thead>
           <tr>
             <th>Product</th>
@@ -68,7 +70,7 @@ const Orders = () => {
                   fullWidth
                 >
                   {(order.status === "Pending" && "Accept Order") ||
-                    (order.status === "Order-place" && "Order Success") ||
+                    (order.status === "Order-place" && "Delivery") ||
                     "Delivered"}
                 </Button>
               </td>

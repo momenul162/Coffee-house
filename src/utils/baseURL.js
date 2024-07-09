@@ -4,7 +4,7 @@ const token = localStorage.getItem("jwt-access-token");
 
 export const baseURL = axios.create(
   token && {
-    baseURL: "http://localhost:4000",
+    baseURL: "https://nexus-coffee-house.onrender.com",
     headers: {
       ...(token && { Authorization: "Bearer " + token }),
     },

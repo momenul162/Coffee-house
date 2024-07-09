@@ -13,7 +13,7 @@ import { Link, NavLink } from "react-router-dom";
 import img from "../../assets/coffee-logo.png";
 import NavItem from "../../component/NavItem";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { Button, Stack } from "@mui/joy";
+import { Button, Container, Stack } from "@mui/joy";
 import Aos from "aos";
 import NavButton from "../../component/Nav-button/NavButton";
 
@@ -29,7 +29,7 @@ const NavBar = () => {
 
   useEffect(() => {
     if (user) {
-      fetchCart({ userId: user?._id });
+      fetchCart({ userId: user._id });
     }
   }, [user]);
 
@@ -64,149 +64,151 @@ const NavBar = () => {
   });
 
   return (
-    <AppBar position="fixed">
-      <Toolbar
-        sx={{
-          height: 80,
-          pl: 1,
-          display: "flex",
-          gap: 1,
-          justifyContent: {
-            xs: "flex-start",
-            md: "space-evenly",
-            lg: "space-around",
-          },
-          bgcolor: "white",
-        }}
-      >
-        <Link
-          data-aos="zoom-out"
-          style={{
-            textDecoration: "none",
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-          }}
-          to="/"
-        >
-          <Box
-            component="img"
-            sx={{
-              height: 50,
-              display: "flex",
-              overflow: "hidden",
-            }}
-            src={img}
-            alt=""
-          />
-          <Typography
-            sx={{
-              display: "flex",
-              gap: 1,
-              fontWeight: "bold",
-
-              fontSize: { xs: "20px", sm: "25px", md: "32px", lg: "42px" },
-            }}
-          >
-            <Stack sx={{ color: "#0C1844" }}>Nexus</Stack>{" "}
-            <Stack sx={{ color: "red" }}>Coffee</Stack>{" "}
-            <Stack sx={{ color: "#0C1844" }}>House</Stack>
-          </Typography>
-        </Link>
-
-        <Box sx={{ display: { xs: "flex", md: "none" } }}>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleOpenNavMenu}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorElNav}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            sx={{
-              display: { xs: "block", md: "none" },
-            }}
-          >
-            <NavItem carts={carts} user={user} />
-          </Menu>
-        </Box>
-        <Box
+    <AppBar position="fixed" sx={{ bgcolor: "white" }}>
+      <Container maxWidth={"xl"}>
+        <Toolbar
           sx={{
-            display: { xs: "none", md: "flex" },
-            justifyContent: "space-evenly",
+            height: { xs: 30, sm: 50, md: 80, lg: 100 },
+            pl: { xs: 0, sm: 1 },
+            display: "flex",
+            justifyContent: {
+              xs: "space-start",
+              sm: "space-between",
+              md: "space-between",
+              lg: "space-between",
+            },
+            gap: { xs: 2 },
           }}
         >
-          <NavItem carts={carts} user={user} />
-        </Box>
+          <Link
+            data-aos="zoom-out"
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+            to="/"
+          >
+            <Box
+              component="img"
+              sx={{
+                height: { xs: 30, sm: 35, md: 45, lg: 50 },
+                display: "flex",
+                overflow: "hidden",
+              }}
+              src={img}
+              alt=""
+            />
+            <Typography
+              sx={{
+                display: "flex",
+                gap: 1,
+                fontWeight: "bold",
 
-        {user && (
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton data-aos="zoom-out" onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  sx={{ border: 1 }}
-                  alt={user?.name}
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/2048px-Avatar_icon_green.svg.png"
-                />
-              </IconButton>
-            </Tooltip>
+                fontSize: { xs: "20px", sm: "25px", md: "32px", lg: "42px" },
+              }}
+            >
+              <Stack sx={{ color: "#0C1844" }}>Nexus</Stack>{" "}
+              <Stack sx={{ color: "red" }}>Coffee</Stack>{" "}
+              <Stack sx={{ color: "#0C1844" }}>House</Stack>
+            </Typography>
+          </Link>
+
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+            >
+              <MenuIcon />
+            </IconButton>
             <Menu
-              sx={{ mt: "45px" }}
               id="menu-appbar"
-              anchorEl={anchorElUser}
+              anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
                 vertical: "top",
-                horizontal: "right",
+                horizontal: "left",
               }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
             >
-              <MenuItem
-                onClick={handleCloseUserMenu}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "start",
-                  gap: 1,
-                }}
-              >
-                <>
-                  <NavLink to="#" style={{ textDecoration: "none" }}>
-                    <NavButton navIcon={"Profile"} />
-                  </NavLink>
-                  <NavLink
-                    to="/auth/login"
-                    onClick={handleLogout}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <NavButton navIcon={"Log out"} />
-                  </NavLink>
-                </>
-              </MenuItem>
+              <NavItem carts={carts} user={user} />
             </Menu>
           </Box>
-        )}
-      </Toolbar>
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              justifyContent: "space-evenly",
+            }}
+          >
+            <NavItem carts={carts} user={user} />
+          </Box>
+
+          {user && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton data-aos="zoom-out" onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    sx={{ border: 1, height: 40 }}
+                    alt={user?.name}
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/2048px-Avatar_icon_green.svg.png"
+                  />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem
+                  onClick={handleCloseUserMenu}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                    gap: 1,
+                  }}
+                >
+                  <>
+                    <NavLink to="#" style={{ textDecoration: "none" }}>
+                      <NavButton navIcon={"Profile"} />
+                    </NavLink>
+                    <NavLink
+                      to="/auth/login"
+                      onClick={handleLogout}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <NavButton navIcon={"Log out"} />
+                    </NavLink>
+                  </>
+                </MenuItem>
+              </Menu>
+            </Box>
+          )}
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 };

@@ -75,7 +75,7 @@ const Footer = () => {
               </CardActions>
             </CardContent>
           </Grid>
-          <Grid item xs={6} sx={{ color: "white" }}>
+          <Grid item xs={6} sx={{ color: "white", mb: { xs: 2 } }}>
             <Typography variant="h5" sx={{ mb: 2 }}>
               Get in Touch
             </Typography>

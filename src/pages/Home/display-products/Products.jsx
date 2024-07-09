@@ -11,10 +11,8 @@ const Products = () => {
   const [page, setPage] = useState(1);
   const [displayLimit, setDisplayLimit] = useState(9);
   const [tab, setTab] = useState("All");
-  const { products } = useStoreState((state) => state.products);
-  const { fetchProducts } = useStoreActions((actions) => actions.products);
-
-  const { products: items, totalProduct, limit } = products;
+  const { products } = useStoreState((state) => state?.products);
+  const { fetchProducts } = useStoreActions((actions) => actions?.products);
 
   useEffect(() => {
     fetchProducts({ limit: displayLimit, page });
@@ -32,9 +30,10 @@ const Products = () => {
     setPage(value);
   };
 
-  const categoryByItem = items?.filter((item) => item.category.name === tab);
+  const categoryByItem =
+    products && products.products.filter((item) => item?.category?.name === tab);
 
-  let pageCount = Math.ceil(totalProduct / limit);
+  let pageCount = Math.ceil(products?.totalProduct / products?.limit);
   if (isNaN(pageCount) || pageCount < 1) {
     pageCount = 1;
   }
@@ -51,7 +50,7 @@ const Products = () => {
         <SortSelect value={displayLimit} getLimit={getLimit} />
       </Tabs>
       {tab === "All" ? (
-        <Typography>Total Items: {totalProduct}</Typography>
+        <Typography>Total Items: {products?.totalProduct}</Typography>
       ) : (
         <Typography>
           {categoryByItem?.length === 0 ? (
@@ -65,7 +64,7 @@ const Products = () => {
       )}
       <Grid container id="products" rowSpacing={2} columnSpacing={{ xs: 2, lg: 4, md: 3 }}>
         {tab === "All"
-          ? items?.map((item) => <ProductCard key={item._id} item={item} />)
+          ? products && products.products.map((item) => <ProductCard key={item._id} item={item} />)
           : categoryByItem?.map((item) => <ProductCard key={item._id} item={item} />)}
       </Grid>
       <Stack spacing={4} alignItems={"center"} mt={4}>

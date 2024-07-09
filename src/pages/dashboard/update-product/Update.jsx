@@ -1,39 +1,46 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import FormField from "../../../component/FormField";
 import Swal from "sweetalert2";
 import useCategory from "../../../hooks/useCategory";
 import { useStoreActions, useStoreState } from "easy-peasy";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Container,
+  FormLabel,
+  Input,
+  Textarea,
+  TextField,
+  Typography,
+} from "@mui/joy";
+import UpdateFormField from "../../../component/UpdateFormField";
 
 const Update = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const categories = useCategory();
   const { control, handleSubmit, reset } = useForm({});
-  const { product } = useStoreState((state) => state.product);
+  const { product } = useStoreState((state) => state?.product);
+  const categories = useCategory();
   const { fetchProduct } = useStoreActions((actions) => actions?.product);
   const { updateProduct } = useStoreActions((actions) => actions?.products);
-  console.log(product);
 
   useEffect(() => {
-    fetchProduct({ productId: id });
-  }, [fetchProduct, id]);
+    if (id) {
+      fetchProduct({ productId: id });
+    }
+  }, [id]);
+
+  if (!product) {
+    return;
+  }
 
   const onValid = async (data) => {
-    await updateProduct({ productId: id, data, page: 1, limit: 10 });
+    await updateProduct({ productId: id, newData: data, page: 1, limit: 10 });
     reset();
-    navigate("/dashboard/products");
+    navigate("/dashboard/all-product");
     Swal.fire({
       position: "center",
       icon: "success",
@@ -45,7 +52,7 @@ const Update = () => {
 
   return (
     <Container maxWidth="sm" sx={{ boxShadow: 3, py: 8, px: 0, mt: 4, borderRadius: 2 }}>
-      <Typography align="center" variant="h4" sx={{ mb: 3, color: "violet" }}>
+      <Typography textAlign="center" level="h3" sx={{ mb: 3, color: "violet" }}>
         Update Coffee
       </Typography>
       <Box
@@ -59,68 +66,74 @@ const Update = () => {
         noValidate
         autoComplete="off"
       >
-        <Box sx={{ display: "flex" }}>
+        <Box>
           <Controller
             name="name"
             control={control}
             render={({ field }) => (
-              <FormField {...field} defaultValue={product?.name ?? "Name"} type="text" />
+              <UpdateFormField {...field} defaultValue={product?.name} type="text" />
             )}
           />
+        </Box>
+        <Box>
           <Controller
             name="supplier"
             control={control}
             render={({ field }) => (
-              <FormField {...field} defaultValue={product?.supplier ?? "Supplieer"} type="text" />
+              <UpdateFormField {...field} defaultValue={product?.supplier} type="text" />
             )}
           />
         </Box>
-        <Box sx={{ display: "flex" }}>
+
+        <Box>
           <Controller
             name="taste"
             control={control}
             render={({ field }) => (
-              <FormField {...field} defaultValue={product?.taste ?? "Taste"} type="text" />
+              <UpdateFormField {...field} defaultValue={product?.taste} type="text" />
             )}
           />
+        </Box>
+        <Box>
           <Controller
             name="price"
             control={control}
             render={({ field }) => (
-              <FormField {...field} defaultValue={product?.price ?? "Price"} type="text" />
+              <UpdateFormField {...field} defaultValue={product?.price} type="text" />
             )}
           />
         </Box>
+
         <Controller
           name="category"
           control={control}
-          render={({ field }) => (
-            <FormControl sx={{ minWidth: 210 }} size="small">
-              <InputLabel id="demo-select-small-label">Category</InputLabel>
-
-              <Select
+          render={({ field: { onChange, value, ...field } }) => (
+            <>
+              <Autocomplete
+                placeholder={product?.category?.name}
+                defaultValue={product?.category?.name}
+                options={categories}
+                getOptionLabel={(option) => option?.name}
+                value={categories?.find((c) => c._id === value) || null}
+                onChange={(event, newValue) => {
+                  onChange(newValue ? newValue._id : null);
+                }}
+                renderInput={(params) => <Input {...params} />}
                 {...field}
-                labelId="demo-select-small-label"
-                id="demo-select-small"
-                label="Category"
-              >
-                <MenuItem value="">
-                  <em>Select one</em>
-                </MenuItem>
-                {categories.map((category) => (
-                  <MenuItem key={category._id} value={category._id}>
-                    {category.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+              />
+            </>
           )}
         />
         <Controller
           name="details"
           control={control}
           render={({ field }) => (
-            <FormField {...field} defaultValue={product?.details ?? "Details"} type="text" />
+            <Textarea
+              minRows={2}
+              {...field}
+              defaultValue={product?.details ?? "Details"}
+              type="text"
+            />
           )}
         />
         <Button variant="outlined" type="submit">

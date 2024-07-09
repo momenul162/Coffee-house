@@ -10,6 +10,9 @@ const MyOrders = () => {
   const { fetchOrders } = useStoreActions((actions) => actions.orders);
   const { user } = useStoreState((state) => state.currentUser);
 
+  console.log("[user]", user);
+  console.log("[orders]", orders);
+
   useEffect(() => {
     if (user) {
       fetchOrders({ userId: user._id });
@@ -23,7 +26,11 @@ const MyOrders = () => {
   return (
     <Container>
       <Table sx={{ my: 10, textAlign: "center" }} borderAxis="bothBetween">
-        <caption>Nutrition of your favorite menus.</caption>
+        <caption>
+          <Typography textAlign={"center"} fontSize={25} sx={{ my: 10 }}>
+            Your orders History
+          </Typography>
+        </caption>
         <thead>
           <tr>
             <th>Product</th>

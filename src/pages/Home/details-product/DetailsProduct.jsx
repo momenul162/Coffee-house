@@ -28,6 +28,8 @@ const DetailsProduct = () => {
     fetchReview({ productId: id });
   }, [id]);
 
+  console.log(product);
+
   const handleCart = (id) => {
     if (!user?.email) {
       navigate("/auth/login");

@@ -1,29 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
-import { StyledTableCell, StyledTableRow } from "../../../component/UI/mui-table/table-styoe";
-import { Container, IconButton, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import { Box, Modal } from "@mui/joy";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import Aos from "aos";
+import { Container, IconButton, Modal, Table } from "@mui/joy";
 
 const AllUser = () => {
-  const { users } = useStoreState((state) => state.users);
-  const { fetchUser } = useStoreActions((actions) => actions.users);
-  const { deleteUser } = useStoreActions((actions) => actions.users);
   const [open, setOpen] = useState(false);
+  const { users } = useStoreState((state) => state?.users);
+  const { fetchUser, deleteUser } = useStoreActions((actions) => actions.users);
 
   useEffect(() => {
     fetchUser();
-  }, [fetchUser]);
+  }, [open]);
 
   const handleRemove = async (user) => {
     const result = await Swal.fire({
@@ -53,47 +44,49 @@ const AllUser = () => {
 
   return (
     <Container>
-      <TableContainer component={Paper}>
-        <Typography textAlign="center" variant="h4">
-          All User Here
-        </Typography>
-        <Table sx={{ minWidth: 300 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align="center">Email</StyledTableCell>
-              <StyledTableCell align="center">Role</StyledTableCell>
-              <StyledTableCell align="center">Actions</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users &&
-              users.map((user) => (
-                <StyledTableRow data-aos="fade-down" key={user._id}>
-                  <StyledTableCell component="th" scope="row">
-                    {user.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">{user.email}</StyledTableCell>
-                  <StyledTableCell align="center">{user.roles}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    <Link to={`/dashboard/users/${user._id}`}>
-                      <Box>
-                        <IconButton onClick={() => setOpen(true)}>
-                          <EditIcon />
-                        </IconButton>
-                        <Modal open={open} onClose={() => setOpen(false)}></Modal>
-                      </Box>
-                    </Link>
-
-                    <IconButton onClick={() => handleRemove(user)}>
-                      <DeleteIcon />
+      <Table borderAxis="bothBetween" stickyHeader>
+        <caption>All Product here, you can do anything!</caption>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users &&
+            users.map((user) => (
+              <tr key={user._id}>
+                <td>{user?.name}</td>
+                <td>{user.email}</td>
+                <td>{user?.roles}</td>
+                <td>
+                  <Link to={`/dashboard/users/${user?._id}`}>
+                    <IconButton
+                      // onClick={() => setOpen(true)}
+                      sx={{ mr: 2 }}
+                      variant="soft"
+                      color="primary"
+                      size="sm"
+                    >
+                      <EditIcon />
                     </IconButton>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                  </Link>
+                  <IconButton
+                    variant="soft"
+                    color="danger"
+                    size="sm"
+                    onClick={() => handleRemove(user)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </Table>
+      <Modal open={open} onClose={() => setOpen(false)} />
     </Container>
   );
 };

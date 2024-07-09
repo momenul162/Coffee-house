@@ -38,7 +38,7 @@ const CoffeeCard = () => {
               borderRadius: "20px",
               WebKitCSSMatrix: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
               MozBoxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
-              boxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
+              boxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.20)",
             }}
             alt=""
             src={img}

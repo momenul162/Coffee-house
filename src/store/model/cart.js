@@ -8,11 +8,13 @@ export const cartModel = {
   setCarts: action((state, payload) => {
     state.carts = payload;
   }),
-  addCart: action((state, payload) => {
-    const previousState = [...state.carts];
-    previousState.push(payload);
-    state.carts = previousState;
-  }),
+
+  // addCart: action((state, payload) => {
+  //   const previousState = [...state.carts];
+  //   previousState.push(payload);
+  //   state.carts = previousState;
+  // }),
+
   setErrors: action((state, payload) => {
     state.error = payload;
   }),
@@ -30,8 +32,10 @@ export const cartModel = {
   postCart: thunk(async (actions, payload) => {
     try {
       const { data } = await baseURL.post("/api/carts", payload);
-      actions.addCart(data);
-      actions?.setErrors(null);
+      if (data._id) {
+        actions?.fetchCart({ userId: payload.userId });
+        actions?.setErrors(null);
+      }
     } catch (error) {
       actions?.setErrors(error.response.data.message);
     }

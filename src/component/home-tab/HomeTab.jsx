@@ -14,9 +14,9 @@ const HomeTab = () => {
     >
       <Tab value={"All"}>All</Tab>
       {categories &&
-        categories.map((category) => (
-          <Tab value={category.name} key={category._id}>
-            {category.name}
+        categories?.map((category) => (
+          <Tab value={category?.name} key={category?._id}>
+            {category?.name}
           </Tab>
         ))}
     </TabList>

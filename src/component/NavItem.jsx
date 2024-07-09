@@ -17,16 +17,19 @@ const NavItem = ({ carts, user }) => {
           <NavButton navIcon={"Dashboard"} />
         </NavLink>
       )}
-      {user?.roles === "USER" && (
-        <NavLink to="/api/my-orders" style={{ textDecoration: "none" }}>
-          <NavButton navIcon={"My Orders"} />
-        </NavLink>
+      {user?.roles !== "ADMIN" && (
+        <>
+          <NavLink to="/my-orders" style={{ textDecoration: "none" }}>
+            <NavButton navIcon={"My Orders"} />
+          </NavLink>
+
+          <NavLink to="/carts" style={{ textDecoration: "none" }}>
+            <Badge badgeContent={carts?.length} color="#071952">
+              <NavButton navIcon={<ShoppingCart />} />
+            </Badge>
+          </NavLink>
+        </>
       )}
-      <NavLink to="/api/carts" style={{ textDecoration: "none" }}>
-        <Badge badgeContent={carts?.length} color="#071952">
-          <NavButton navIcon={<ShoppingCart />} />
-        </Badge>
-      </NavLink>
       <NavLink to="#" style={{ textDecoration: "none" }}>
         <Badge badgeContent={""} color="#071952">
           <NavButton navIcon={<Favorite />} />

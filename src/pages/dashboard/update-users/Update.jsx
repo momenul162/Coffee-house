@@ -11,7 +11,7 @@ const UpdateUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     updateUser({ userId: id, roles: e?.target[0]?.value });
-    navigate("/dashboard/users");
+    navigate("/dashboard/all-user");
   };
 
   const roles = [{ label: "ADMIN" }, { label: "USER" }, { label: "WAITER" }];

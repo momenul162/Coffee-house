@@ -17,9 +17,6 @@ const SortSelect = ({ value, getLimit }) => {
             transform: "rotate(-180deg)",
           },
         },
-        "&:hover": {
-          color: "salmon",
-        },
       }}
     >
       <MenuItem value={4}>4</MenuItem>

@@ -12,9 +12,9 @@ export const categoryModel = {
   setCategory: action((state, payload) => {
     state.categories = payload;
   }),
-  fetchCategories: thunk(async (actions, payload) => {
+  fetchCategories: thunk(async (actions) => {
     try {
-      const { data } = await axios.get("http://localhost:4000/api/categories", payload);
+      const { data } = await axios.get("https://nexus-coffee-house.onrender.com/api/categories");
       actions?.setCategory(data);
       actions?.setError(null);
     } catch (e) {

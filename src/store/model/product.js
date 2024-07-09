@@ -3,7 +3,7 @@ import { baseURL } from "../../utils/baseURL";
 import axios from "axios";
 
 export const productModel = {
-  products: [],
+  products: null,
   error: null,
 
   setError: action((state, payload) => {
@@ -17,7 +17,7 @@ export const productModel = {
   fetchProducts: thunk(async (actions, { page, limit }) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/products?page=${page}&limit=${limit}`
+        `https://nexus-coffee-house.onrender.com/api/products?page=${page}&limit=${limit}`
       );
       actions?.setProducts(data);
       actions.setError(null);
@@ -26,11 +26,14 @@ export const productModel = {
     }
   }),
 
-  updateProduct: thunk(async (actions, { productId, data, page, limit }) => {
+  updateProduct: thunk(async (actions, { productId, newData, page, limit }) => {
     try {
-      await baseURL.patch(`/admin/api/products/${productId}`, data);
-      actions.fetchProducts({ page, limit });
-      actions.setError(null);
+      const { data } = await baseURL.patch(`/admin/api/products/${productId}`, newData);
+      console.log(data);
+      if (data._id) {
+        actions.fetchProducts({ page, limit });
+        actions.setError(null);
+      }
     } catch (error) {
       actions.setError(error.response?.data?.message);
     }
@@ -60,7 +63,9 @@ export const searchProductById = {
   }),
   fetchProduct: thunk(async (actions, { productId }) => {
     try {
-      const { data } = await axios.get(`http://localhost:4000/api/products/${productId}`);
+      const { data } = await axios.get(
+        `https://nexus-coffee-house.onrender.com/api/products/${productId}`
+      );
       actions.setProduct(data);
       actions.setError(null);
     } catch (error) {

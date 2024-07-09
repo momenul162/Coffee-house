@@ -1,5 +1,6 @@
 import { action, thunk } from "easy-peasy";
 import { baseURL } from "../../utils/baseURL";
+import e from "cors";
 
 export const userModel = {
   users: null,
@@ -16,6 +17,7 @@ export const userModel = {
   fetchUser: thunk(async (actions, payload) => {
     try {
       const { data } = await baseURL.get("/api/users", payload);
+      console.log(data);
       actions?.setUser(data);
       actions?.setError(null);
     } catch (error) {
@@ -47,6 +49,7 @@ export const userModel = {
 export const currentUserModel = {
   user: null,
   error: null,
+  loading: false,
 
   setUser: action((state, payload) => {
     state.user = payload;
@@ -56,13 +59,22 @@ export const currentUserModel = {
     state.error = payload;
   }),
 
+  setLoading: action((state, payload) => {
+    state.loading = payload;
+  }),
+
   fetchCurrentUser: thunk(async (actions) => {
     try {
+      actions.setLoading(true);
+
       const { data } = await baseURL.get("/api/current/user");
       actions?.setUser(data);
+
+      actions.setLoading(false);
       actions?.setError(null);
     } catch (error) {
       actions?.setError(error.response?.data?.message);
+      actions.setLoading(false);
     }
   }),
 };

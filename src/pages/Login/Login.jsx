@@ -1,16 +1,16 @@
-import { Box, Button, Container, Typography } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import FormField from "../../component/FormField";
 import Swal from "sweetalert2";
-import { baseURL } from "../../utils/baseURL";
 import { useStoreActions } from "easy-peasy";
 import { useState } from "react";
 import axios from "axios";
+import { Box, Button, Container, Typography } from "@mui/joy";
 
 const Login = () => {
-  const navigate = useNavigate();
   const { setUser } = useStoreActions((actions) => actions.currentUser);
+  const { fetchOrders } = useStoreActions((actions) => actions.orders);
+  const { fetchCart } = useStoreActions((actions) => actions.carts);
   const [error, setError] = useState(null);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -18,14 +18,26 @@ const Login = () => {
       password: "",
     },
   });
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const onValid = async (newUser) => {
     try {
       if (newUser.email && newUser.password) {
-        const { data } = await axios.post("http://localhost:4000/auth/login", newUser);
+        const { data } = await axios.post(
+          "https://nexus-coffee-house.onrender.com/auth/login",
+          newUser
+        );
 
+        console.log(data?.user?.user);
         if (data.user.token) {
           localStorage.setItem("jwt-access-token", data?.user.token);
+          const user = data?.user?.user;
+          setUser(user);
+          navigate(from, { replace: true });
+          reset();
+          window.location.reload();
           Swal.fire({
             position: "center",
             icon: "success",
@@ -33,10 +45,6 @@ const Login = () => {
             showConfirmButton: false,
             timer: 1000,
           });
-          setUser(data?.user?.user);
-          reset();
-          navigate("/");
-          window.location.reload();
         }
       }
     } catch (e) {
@@ -45,7 +53,10 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth="xs" sx={{ boxShadow: 3, py: 8, px: 0, mt: 20, mb: 10, borderRadius: 2 }}>
+    <Container
+      maxWidth="sm"
+      sx={{ border: 1, boxShadow: 5, py: 8, px: 0, mt: 20, mb: 10, borderRadius: 10 }}
+    >
       <Typography align="center" variant="h4" sx={{ mb: 3, color: "violet" }}>
         Sign in
       </Typography>
@@ -53,7 +64,7 @@ const Login = () => {
         onSubmit={handleSubmit(onValid)}
         component="form"
         sx={{
-          "& > :not(style)": { m: 1 },
+          "& > :not(style)": { m: 2 },
           display: "flex",
           flexDirection: "column",
         }}
@@ -63,19 +74,26 @@ const Login = () => {
         <Controller
           name="email"
           control={control}
-          render={({ field }) => <FormField {...field} label="Email" type="email" />}
+          render={({ field }) => <FormField {...field} placeholder="Your email" type="email" />}
         />
         <Controller
           name="password"
           control={control}
-          render={({ field }) => <FormField {...field} label="Password" type="password" />}
+          render={({ field }) => (
+            <FormField {...field} placeholder="Your password" type="password" />
+          )}
         />
         {error && (
-          <Typography variant="body2" color="red">
+          <Typography variant="body2" color="danger" textAlign={"center"}>
             {error}
           </Typography>
         )}
-        <Button variant="outlined" type="submit">
+        <Button
+          variant="outlined"
+          color="neutral"
+          type="submit"
+          sx={{ ":hover": { color: "teal", borderColor: "teal" } }}
+        >
           Login
         </Button>
       </Box>

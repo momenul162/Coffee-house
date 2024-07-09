@@ -1,6 +1,6 @@
 import { Button, Card, CardActions, CardContent, Container, Grid, Typography } from "@mui/joy";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import Table from "@mui/joy/Table";
 import Sheet from "@mui/joy/Sheet";
 import { Link } from "react-router-dom";
@@ -15,20 +15,20 @@ const Carts = () => {
     if (user) {
       fetchCart({ userId: user._id });
     }
-  }, [user]);
+  }, [user, fetchCart]);
 
-  const totalPrice = carts?.reduce((acc, cur) => acc + cur.itemId.price * cur.quantity, 0);
-
-  Aos.init({
-    duration: 1200,
+  const totalPrice = useMemo(() => {
+    return carts?.reduce((acc, cur) => acc + cur.itemId.price * cur.quantity, 0);
   });
+
+  useEffect(() => {
+    Aos.init({
+      duration: 1200,
+    });
+  }, []);
 
   return (
     <Container sx={{ my: 20 }}>
-      <Typography fontSize="lg" textAlign="center">
-        CART
-      </Typography>
-
       <Grid container spacing={4}>
         <Grid sm={8} md={7}>
           <Sheet
@@ -41,7 +41,11 @@ const Carts = () => {
             }}
           >
             <Table stripe="odd" hoverRow>
-              <caption>Nutrition of your favorite menus.</caption>
+              <caption>
+                <Typography textAlign={"center"} fontSize={25}>
+                  Your carts
+                </Typography>
+              </caption>
               <thead>
                 <tr>
                   <th>Image</th>

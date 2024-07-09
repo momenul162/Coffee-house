@@ -2,8 +2,8 @@ import { action, thunk } from "easy-peasy";
 import { baseURL } from "../../utils/baseURL";
 
 export const orderModel = {
-  allOrders: [],
-  orders: [],
+  allOrders: null,
+  orders: null,
   error: null,
 
   setError: action((state, payload) => {
@@ -13,6 +13,14 @@ export const orderModel = {
   setAllOrders: action((state, payload) => {
     state.allOrders = payload;
   }),
+
+  // setUpdateOrder: action((state, payload) => {
+  //   const previousIndex = [...state.allOrders].findIndex((order) => order._id === payload._id);
+
+  //   if (previousIndex !== -1) {
+  //     state.allOrders[previousIndex] = payload;
+  //   }
+  // }),
 
   setOrders: action((state, payload) => {
     state.orders = payload;
@@ -41,9 +49,11 @@ export const orderModel = {
 
   updateOrder: thunk(async (actions, { orderId, status, userId }) => {
     try {
-      await baseURL.patch(`/api/admin/orders/${orderId}`, { status });
-      actions?.fetchOrders({ userId });
-      actions?.setError(null);
+      const { data } = await baseURL.patch(`/api/admin/orders/${orderId}`, { status });
+      if (data._id) {
+        actions?.fetchAllOrders({ userId });
+        actions?.setError(null);
+      }
     } catch (error) {
       actions?.setError(error.response?.data?.message);
     }

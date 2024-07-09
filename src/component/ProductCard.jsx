@@ -39,7 +39,7 @@ const ProductCard = ({ item }) => {
   });
 
   return (
-    <Grid item lg={3} md={4} sm={6} xs={12}>
+    <Grid item={"true"} lg={3} md={4} sm={6} xs={12}>
       <Card
         data-aos="zoom-in"
         sx={{
@@ -47,7 +47,7 @@ const ProductCard = ({ item }) => {
           maxWidth: "100%",
           WebKitCSSMatrix: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
           MozBoxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
-          boxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
+          boxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.20)",
         }}
       >
         <CardOverflow>

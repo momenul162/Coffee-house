@@ -98,8 +98,7 @@ const CheckoutForm = () => {
     };
     baseURL.post("/payment-history", payment).then((res) => {
       if (res.data._id) {
-        console.log(res.data);
-        navigate("/");
+        navigate("/my-orders");
       }
     });
     if (transactionId) {
@@ -145,7 +144,7 @@ const CheckoutForm = () => {
           }}
         />
         {errorMessage && <ErrorResult>{errorMessage}</ErrorResult>}
-        {transactionId && <Result>Your Payment Success: {transactionId}</Result>}
+        {transactionId && <Result>Your Payment Success</Result>}
 
         {progress ? (
           <Button
