@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Box, Container, Stack, Typography } from "@mui/material";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import Aos from "aos";
@@ -10,7 +9,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./ProductReview.css";
 import { Pagination, Navigation } from "swiper/modules";
-import { Button } from "@mui/joy";
+import { Box, Button, Container, Stack, Typography } from "@mui/joy";
 import Swal from "sweetalert2";
 
 const DetailsProduct = () => {
@@ -72,12 +71,31 @@ const DetailsProduct = () => {
             <img height={455} width={355} src={product?.image} alt="" />
           </Box>
           <Box data-aos="fade-left" sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <Typography variant="h4">Name: {product?.name}</Typography>
-            <Typography variant="h5">Supplier: {product?.supplier}</Typography>
-            <Typography variant="h5">Taste: {product?.taste}</Typography>
-            <Typography variant="h5">Category: {product?.category?.name}</Typography>
-            <Typography variant="h4">Price: ${product?.price}</Typography>
-            <Typography variant="body">Details: {product?.details}</Typography>
+            <Typography level="body-lg" sx={{ display: "flex", gap: 1 }}>
+              Name: <Stack sx={{ fontWeight: 600, color: "#0C1844" }}>{product?.name}</Stack>
+            </Typography>
+
+            <Typography level="body-lg" sx={{ display: "flex", gap: 1 }}>
+              Supplier:{" "}
+              <Stack sx={{ fontWeight: 600, color: "#0C1844" }}>{product?.supplier}</Stack>
+            </Typography>
+
+            <Typography level="body-lg" sx={{ display: "flex", gap: 1 }}>
+              Taste: <Stack sx={{ fontWeight: 600, color: "#0C1844" }}>{product?.taste}</Stack>
+            </Typography>
+
+            <Typography level="body-lg" sx={{ display: "flex", gap: 1 }}>
+              Category:{" "}
+              <Stack sx={{ fontWeight: 600, color: "#0C1844" }}>{product?.category?.name}</Stack>
+            </Typography>
+
+            <Typography level="body-lg" sx={{ display: "flex", gap: 1 }}>
+              Price: <Stack sx={{ fontWeight: 600, color: "#0C1844" }}>${product?.price}</Stack>
+            </Typography>
+
+            <Typography level="body-lg" sx={{ display: "flex", gap: 1 }}>
+              Details: <Stack sx={{ fontWeight: 500, color: "#0C1844" }}>{product?.details}</Stack>
+            </Typography>
             <Button
               variant="outlined"
               onClick={() => handleCart(item._id)}

@@ -9,8 +9,6 @@ import { Box, Button, Container, Typography } from "@mui/joy";
 
 const Login = () => {
   const { setUser } = useStoreActions((actions) => actions.currentUser);
-  const { fetchOrders } = useStoreActions((actions) => actions.orders);
-  const { fetchCart } = useStoreActions((actions) => actions.carts);
   const [error, setError] = useState(null);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -57,7 +55,7 @@ const Login = () => {
       maxWidth="sm"
       sx={{ border: 1, boxShadow: 5, py: 8, px: 0, mt: 20, mb: 10, borderRadius: 10 }}
     >
-      <Typography align="center" variant="h4" sx={{ mb: 3, color: "violet" }}>
+      <Typography textAlign="center" level="h3" sx={{ mb: 3, color: "violet" }}>
         Sign in
       </Typography>
       <Box

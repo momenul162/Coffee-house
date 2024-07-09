@@ -1,8 +1,19 @@
-import { Button, Card, CardActions, CardContent, Container, Grid, Typography } from "@mui/joy";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Container,
+  Grid,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/joy";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import React, { useEffect, useMemo } from "react";
 import Table from "@mui/joy/Table";
 import Sheet from "@mui/joy/Sheet";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import Aos from "aos";
 
@@ -27,6 +38,28 @@ const Carts = () => {
     });
   }, []);
 
+  const handleRemove = async (cart) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+    if (result.isConfirmed) {
+      await deleteUser({ userId: user._id });
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Deleted Successfully",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    }
+  };
+
   return (
     <Container sx={{ my: 20 }}>
       <Grid container spacing={4}>
@@ -42,7 +75,7 @@ const Carts = () => {
           >
             <Table stripe="odd" hoverRow>
               <caption>
-                <Typography textAlign={"center"} fontSize={25}>
+                <Typography textAlign={"center"} level="h3" sx={{ color: "violet" }}>
                   Your carts
                 </Typography>
               </caption>
@@ -62,7 +95,17 @@ const Carts = () => {
                     </td>
                     <td>{cart.quantity}</td>
                     <td>{cart.quantity * cart.itemId.price}</td>
-                    <td></td>
+                    <td>
+                      <IconButton
+                        disabled
+                        variant="outlined"
+                        color="danger"
+                        size="sm"
+                        onClick={() => handleRemove(cart)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -86,7 +129,9 @@ const Carts = () => {
               Place Order
             </Typography>
             <div>
-              <Typography level="h2">$ {totalPrice}</Typography>
+              <Typography level="h2" sx={{ display: "flex", gap: 1, color: "violet" }}>
+                <Stack color={"gold"}>$</Stack> {totalPrice}
+              </Typography>
             </div>
             <CardContent>
               <Typography level="title-lg">Individual License</Typography>

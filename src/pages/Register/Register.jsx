@@ -51,7 +51,7 @@ const Register = () => {
       maxWidth="xs"
       sx={{ border: 1, boxShadow: 3, py: 10, px: 0, mt: 20, mb: 10, borderRadius: 10 }}
     >
-      <Typography textAlign="center" level="h4" sx={{ mb: 3, color: "violet" }}>
+      <Typography textAlign="center" level="h3" sx={{ mb: 3, color: "violet" }}>
         Sign up
       </Typography>
       <Box

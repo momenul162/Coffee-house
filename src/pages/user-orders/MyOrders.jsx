@@ -25,9 +25,9 @@ const MyOrders = () => {
 
   return (
     <Container>
-      <Table sx={{ my: 10, textAlign: "center" }} borderAxis="bothBetween">
+      <Table sx={{ mt: 16, mb: 8, textAlign: "center" }} borderAxis="bothBetween">
         <caption>
-          <Typography textAlign={"center"} fontSize={25} sx={{ my: 10 }}>
+          <Typography textAlign="center" level="h3" sx={{ mb: 4, color: "violet" }}>
             Your orders History
           </Typography>
         </caption>
