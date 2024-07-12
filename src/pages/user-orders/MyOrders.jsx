@@ -1,5 +1,5 @@
 import { Add } from "@mui/icons-material";
-import { Button, Container, Table, Typography } from "@mui/joy";
+import { Button, CircularProgress, Container, Table, Typography } from "@mui/joy";
 import Aos from "aos";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import React, { useEffect } from "react";
@@ -7,18 +7,23 @@ import { Link } from "react-router-dom";
 import EmptyPageHandle from "../../utils/handle-empty-page/EmptyHandle";
 
 const MyOrders = () => {
-  const { orders } = useStoreState((state) => state.orders);
+  const { orders, loading } = useStoreState((state) => state.orders);
   const { fetchOrders } = useStoreActions((actions) => actions.orders);
-  const { user } = useStoreState((state) => state.currentUser);
-
-  console.log("[user]", user);
-  console.log("[orders]", orders);
+  const { user, loading: userLoading } = useStoreState((state) => state.currentUser);
 
   useEffect(() => {
     if (user) {
       fetchOrders({ userId: user._id });
     }
   }, [user]);
+
+  if (loading || userLoading) {
+    return (
+      <Container sx={{ mt: 20, mb: 8, textAlign: "center" }}>
+        <CircularProgress thickness={4} size="lg" />
+      </Container>
+    );
+  }
 
   Aos.init({
     duration: 1200,

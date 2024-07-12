@@ -3,7 +3,15 @@ import React from "react";
 import useCategory from "../../hooks/useCategory";
 
 const HomeTab = () => {
-  const categories = useCategory();
+  const { categories, loading } = useCategory();
+
+  if (loading) {
+    return (
+      <Container sx={{ mt: 10, textAlign: "center" }}>
+        <CircularProgress thickness={3} size="sm" />
+      </Container>
+    );
+  }
 
   return (
     <TabList

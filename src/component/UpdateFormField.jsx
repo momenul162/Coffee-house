@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import { Input } from "@mui/joy";
 
 const UpdateFormField = forwardRef(
-  ({ type, placeholder, defaultValue = false, onChange, ...props }, ref) => {
+  ({ type, placeholder, defaultValue = "", onChange, ...props }, ref) => {
     return (
       <>
         <Input
@@ -13,7 +13,7 @@ const UpdateFormField = forwardRef(
           placeholder={placeholder}
           required
           type={type}
-          //   value={props?.name}
+          value={props.value}
           defaultValue={defaultValue}
           onChange={onChange}
           {...props}

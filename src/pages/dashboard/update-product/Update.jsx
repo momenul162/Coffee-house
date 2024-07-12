@@ -23,9 +23,9 @@ const Update = () => {
   const navigate = useNavigate();
   const { control, handleSubmit, reset } = useForm({});
   const { product } = useStoreState((state) => state?.product);
-  const categories = useCategory();
   const { fetchProduct } = useStoreActions((actions) => actions?.product);
   const { updateProduct } = useStoreActions((actions) => actions?.products);
+  const { categories } = useCategory();
 
   useEffect(() => {
     if (id) {
@@ -71,7 +71,11 @@ const Update = () => {
             name="name"
             control={control}
             render={({ field }) => (
-              <UpdateFormField {...field} defaultValue={product?.name} type="text" />
+              <UpdateFormField
+                {...field}
+                placeholder={product?.name || "Product name"}
+                type="text"
+              />
             )}
           />
         </Box>
@@ -80,7 +84,11 @@ const Update = () => {
             name="supplier"
             control={control}
             render={({ field }) => (
-              <UpdateFormField {...field} defaultValue={product?.supplier} type="text" />
+              <UpdateFormField
+                {...field}
+                placeholder={product?.supplier || "Supplier name"}
+                type="text"
+              />
             )}
           />
         </Box>
@@ -90,7 +98,11 @@ const Update = () => {
             name="taste"
             control={control}
             render={({ field }) => (
-              <UpdateFormField {...field} defaultValue={product?.taste} type="text" />
+              <UpdateFormField
+                {...field}
+                placeholder={product?.taste || "Taste product"}
+                type="text"
+              />
             )}
           />
         </Box>
@@ -99,7 +111,7 @@ const Update = () => {
             name="price"
             control={control}
             render={({ field }) => (
-              <UpdateFormField {...field} defaultValue={product?.price} type="text" />
+              <UpdateFormField placeholder={product?.price ?? "000"} type="Numver" {...field} />
             )}
           />
         </Box>
@@ -111,7 +123,6 @@ const Update = () => {
             <>
               <Autocomplete
                 placeholder={product?.category?.name}
-                defaultValue={product?.category?.name}
                 options={categories}
                 getOptionLabel={(option) => option?.name}
                 value={categories?.find((c) => c._id === value) || null}
@@ -131,7 +142,7 @@ const Update = () => {
             <Textarea
               minRows={2}
               {...field}
-              defaultValue={product?.details ?? "Details"}
+              placeholder={product?.details ?? "Describe product"}
               type="text"
             />
           )}

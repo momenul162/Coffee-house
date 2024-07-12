@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { Box, IconButton, Stack, Table } from "@mui/joy";
+import {
+  Box,
+  CircularProgress,
+  Container,
+  IconButton,
+  LinearProgress,
+  Stack,
+  Table,
+} from "@mui/joy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Pagination } from "@mui/material";
@@ -9,13 +17,21 @@ import { Link } from "react-router-dom";
 
 const AllProduct = () => {
   const [page, setPage] = useState(1);
-  const { products } = useStoreState((state) => state?.products);
+  const { products, loading } = useStoreState((state) => state?.products);
   const { fetchProducts } = useStoreActions((actions) => actions?.products);
   const { deleteProduct } = useStoreActions((actions) => actions?.products);
 
   useEffect(() => {
     fetchProducts({ limit: 10, page });
   }, []);
+
+  if (loading) {
+    return (
+      <Container sx={{ mt: 10, textAlign: "center" }}>
+        <CircularProgress thickness={4} size="lg" />
+      </Container>
+    );
+  }
 
   const handleRemove = async (item) => {
     const result = await Swal.fire({

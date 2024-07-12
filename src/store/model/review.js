@@ -2,11 +2,16 @@ import { action, thunk } from "easy-peasy";
 import { baseURL } from "../../utils/baseURL";
 
 export const reviewModel = {
-  reviews: [],
+  reviews: null,
   error: null,
+  loading: false,
 
   setReviews: action(async (state, payload) => {
     state.reviews = payload;
+  }),
+
+  setLoading: action((state, payload) => {
+    state.loading = payload;
   }),
 
   setError: action((state, payload) => {
@@ -14,10 +19,12 @@ export const reviewModel = {
   }),
 
   fetchReview: thunk(async (actions, { productId }) => {
+    actions.setLoading(true);
     try {
       const { data } = await baseURL.get(`/api/reviews/${productId}`);
       actions.setReviews(data);
       actions.setError(null);
+      actions.setLoading(false);
     } catch (error) {
       actions.setError(error.response?.data?.message);
     }

@@ -2,7 +2,15 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "../../../component/ProductCard";
 import { Pagination } from "@mui/material";
 import Tabs from "@mui/joy/Tabs";
-import { Container, Grid, Stack, Typography } from "@mui/joy";
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Grid,
+  LinearProgress,
+  Stack,
+  Typography,
+} from "@mui/joy";
 import HomeTab from "../../../component/home-tab/HomeTab";
 import SortSelect from "../../../component/select-sort/SortSelect";
 import { useStoreActions, useStoreState } from "easy-peasy";
@@ -11,12 +19,20 @@ const Products = () => {
   const [page, setPage] = useState(1);
   const [displayLimit, setDisplayLimit] = useState(9);
   const [tab, setTab] = useState("All");
-  const { products } = useStoreState((state) => state?.products);
+  const { products, loading } = useStoreState((state) => state?.products);
   const { fetchProducts } = useStoreActions((actions) => actions?.products);
 
   useEffect(() => {
     fetchProducts({ limit: displayLimit, page });
-  }, [fetchProducts, page, displayLimit]);
+  }, [page, displayLimit]);
+
+  if (loading) {
+    return (
+      <Container sx={{ mt: 10, textAlign: "center" }}>
+        <CircularProgress thickness={4} size="lg" />
+      </Container>
+    );
+  }
 
   const getLimit = (value) => {
     setDisplayLimit(value);

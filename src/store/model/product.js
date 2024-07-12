@@ -5,9 +5,14 @@ import axios from "axios";
 export const productModel = {
   products: null,
   error: null,
+  loading: false,
 
   setError: action((state, payload) => {
     state.error = payload;
+  }),
+
+  setLoading: action((state, payload) => {
+    state.loading = payload;
   }),
 
   setProducts: action((state, payload) => {
@@ -16,11 +21,13 @@ export const productModel = {
 
   fetchProducts: thunk(async (actions, { page, limit }) => {
     try {
+      actions.setLoading(true);
       const { data } = await axios.get(
         `https://nexus-coffee-house-app.vercel.app/api/products?page=${page}&limit=${limit}`
       );
-      actions?.setProducts(data);
+      actions.setProducts(data);
       actions.setError(null);
+      actions.setLoading(false);
     } catch (e) {
       actions.setError(e.response?.data?.message);
     }
@@ -51,23 +58,30 @@ export const productModel = {
 };
 
 export const searchProductById = {
-  product: {},
+  product: null,
   error: null,
+  loading: false,
 
   setError: action((state, payload) => {
     state.error = payload;
+  }),
+
+  setLoading: action((state, payload) => {
+    state.loading = payload;
   }),
 
   setProduct: action((state, payload) => {
     state.product = payload;
   }),
   fetchProduct: thunk(async (actions, { productId }) => {
+    actions.setLoading(true);
     try {
       const { data } = await axios.get(
         `https://nexus-coffee-house-app.vercel.app/api/products/${productId}`
       );
       actions.setProduct(data);
       actions.setError(null);
+      actions.setLoading(false);
     } catch (error) {
       actions.setError(error.response?.data?.message);
     }

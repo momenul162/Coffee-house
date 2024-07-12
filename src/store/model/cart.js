@@ -4,28 +4,30 @@ import { baseURL } from "../../utils/baseURL";
 export const cartModel = {
   carts: null,
   error: null,
+  loading: false,
 
   setCarts: action((state, payload) => {
     state.carts = payload;
   }),
 
-  // addCart: action((state, payload) => {
-  //   const previousState = [...state.carts];
-  //   previousState.push(payload);
-  //   state.carts = previousState;
-  // }),
+  setLoading: action((state, payload) => {
+    state.loading = payload;
+  }),
 
   setErrors: action((state, payload) => {
     state.error = payload;
   }),
 
   fetchCart: thunk(async (actions, { userId }) => {
+    actions.setLoading(true);
     try {
       const { data } = await baseURL.get(`/api/carts/${userId}`);
-      actions?.setCarts(data);
-      actions?.setErrors(null);
+      actions.setCarts(data);
+      actions.setErrors(null);
+      actions.setLoading(false);
     } catch (error) {
-      actions?.setErrors(error.response.data.message);
+      actions.setErrors(error.response.data.message);
+      actions.setLoading(false);
     }
   }),
 

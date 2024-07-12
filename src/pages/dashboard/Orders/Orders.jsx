@@ -1,10 +1,10 @@
-import { Button, Container, Table, Typography } from "@mui/joy";
+import { Button, CircularProgress, Container, LinearProgress, Table, Typography } from "@mui/joy";
 import Aos from "aos";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import React, { useEffect } from "react";
 
 const Orders = () => {
-  const { allOrders } = useStoreState((state) => state?.orders);
+  const { allOrders, loading } = useStoreState((state) => state?.orders);
   const { user } = useStoreState((state) => state.currentUser);
   const { fetchAllOrders } = useStoreActions((actions) => actions.orders);
   const { updateOrder } = useStoreActions((actions) => actions.orders);
@@ -12,6 +12,14 @@ const Orders = () => {
   useEffect(() => {
     fetchAllOrders();
   }, [user]);
+
+  if (loading) {
+    return (
+      <Container sx={{ mt: 10, textAlign: "center" }}>
+        <CircularProgress thickness={4} size="lg" />
+      </Container>
+    );
+  }
 
   const handleStatus = (id, status, userId) => {
     console.log("Status= ", status, id);

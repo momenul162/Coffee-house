@@ -5,6 +5,7 @@ export const orderModel = {
   allOrders: null,
   orders: null,
   error: null,
+  loading: false,
 
   setError: action((state, payload) => {
     state.error = payload;
@@ -12,6 +13,10 @@ export const orderModel = {
 
   setAllOrders: action((state, payload) => {
     state.allOrders = payload;
+  }),
+
+  setLoading: action((state, payload) => {
+    state.loading = payload;
   }),
 
   // setUpdateOrder: action((state, payload) => {
@@ -27,21 +32,25 @@ export const orderModel = {
   }),
 
   fetchAllOrders: thunk(async (actions) => {
+    actions.setLoading(true);
     try {
       const { data } = await baseURL.get("/api/admin/orders");
       actions.setAllOrders(data);
       actions.setError(null);
+      actions.setLoading(false);
     } catch (error) {
       actions?.setError(error.response?.data?.message);
     }
   }),
 
   fetchOrders: thunk(async (actions, { userId }) => {
+    actions.setLoading(true);
     try {
       const { data } = await baseURL.get(`/api/orders/${userId}`);
 
       actions?.setOrders(data);
       actions?.setError(null);
+      actions.setLoading(false);
     } catch (error) {
       actions.setError(error.response?.data?.message);
     }

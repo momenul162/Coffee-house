@@ -14,7 +14,6 @@ const FormField = forwardRef(
           required
           type={type}
           value={props?.name}
-          // defaultValue={defaultValue}
           onChange={onChange}
           {...props}
         />

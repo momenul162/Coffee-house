@@ -3,6 +3,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  CircularProgress,
   Container,
   Grid,
   IconButton,
@@ -19,25 +20,29 @@ import Aos from "aos";
 import EmptyPageHandle from "../../utils/handle-empty-page/EmptyHandle";
 
 const Carts = () => {
-  const { user } = useStoreState((state) => state.currentUser);
+  const { user, loading: userLoading } = useStoreState((state) => state.currentUser);
   const { fetchCart } = useStoreActions((actions) => actions.carts);
-  const { carts } = useStoreState((state) => state.carts);
+  const { carts, loading } = useStoreState((state) => state.carts);
 
   useEffect(() => {
     if (user) {
-      fetchCart({ userId: user._id });
+      fetchCart({ userId: user?._id });
     }
-  }, [user, fetchCart]);
+  }, [user]);
 
-  const totalPrice = useMemo(() => {
-    return carts?.reduce((acc, cur) => acc + cur.itemId.price * cur.quantity, 0);
+  if (loading || userLoading) {
+    return (
+      <Container sx={{ mt: 20, mb: 8, textAlign: "center" }}>
+        <CircularProgress thickness={4} size="lg" />
+      </Container>
+    );
+  }
+
+  const totalPrice = carts?.reduce((acc, cur) => acc + cur.itemId.price * cur.quantity, 0);
+
+  Aos.init({
+    duration: 1200,
   });
-
-  useEffect(() => {
-    Aos.init({
-      duration: 1200,
-    });
-  }, []);
 
   const handleRemove = async (cart) => {
     const result = await Swal.fire({
@@ -91,26 +96,27 @@ const Carts = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {carts?.map((cart) => (
-                      <tr data-aos="fade-down" key={cart._id}>
-                        <td>
-                          <img width={75} src={cart.itemId.image} alt={cart.itemId.name} />
-                        </td>
-                        <td>{cart.quantity}</td>
-                        <td>{cart.quantity * cart.itemId.price}</td>
-                        <td>
-                          <IconButton
-                            disabled
-                            variant="outlined"
-                            color="danger"
-                            size="sm"
-                            onClick={() => handleRemove(cart)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </td>
-                      </tr>
-                    ))}
+                    {carts &&
+                      carts.map((cart) => (
+                        <tr data-aos="fade-down" key={cart._id}>
+                          <td>
+                            <img width={75} src={cart.itemId.image} alt={cart.itemId.name} />
+                          </td>
+                          <td>{cart.quantity}</td>
+                          <td>{cart.quantity * cart.itemId.price}</td>
+                          <td>
+                            <IconButton
+                              disabled
+                              variant="outlined"
+                              color="danger"
+                              size="sm"
+                              onClick={() => handleRemove(cart)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </Table>
               </Sheet>

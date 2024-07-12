@@ -5,16 +5,24 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import Aos from "aos";
-import { Container, IconButton, Modal, Table } from "@mui/joy";
+import { CircularProgress, Container, IconButton, LinearProgress, Modal, Table } from "@mui/joy";
 
 const AllUser = () => {
   const [open, setOpen] = useState(false);
-  const { users } = useStoreState((state) => state?.users);
+  const { users, loading } = useStoreState((state) => state?.users);
   const { fetchUser, deleteUser } = useStoreActions((actions) => actions.users);
 
   useEffect(() => {
     fetchUser();
   }, [open]);
+
+  if (loading) {
+    return (
+      <Container sx={{ mt: 10, textAlign: "center" }}>
+        <CircularProgress thickness={4} size="lg" />
+      </Container>
+    );
+  }
 
   const handleRemove = async (user) => {
     const result = await Swal.fire({

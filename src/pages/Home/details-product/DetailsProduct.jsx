@@ -9,12 +9,12 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./ProductReview.css";
 import { Pagination, Navigation } from "swiper/modules";
-import { Box, Button, Container, Stack, Typography } from "@mui/joy";
+import { Box, Button, CircularProgress, Container, Stack, Typography } from "@mui/joy";
 import Swal from "sweetalert2";
 
 const DetailsProduct = () => {
   const { id } = useParams();
-  const { product } = useStoreState((state) => state.product);
+  const { product, loading } = useStoreState((state) => state.product);
   const { fetchProduct } = useStoreActions((actions) => actions.product);
   const { fetchReview } = useStoreActions((actions) => actions.reviews);
   const { reviews } = useStoreState((state) => state.reviews);
@@ -27,7 +27,13 @@ const DetailsProduct = () => {
     fetchReview({ productId: id });
   }, [id]);
 
-  console.log(product);
+  if (loading) {
+    return (
+      <Container sx={{ mt: 20, mb: 9, textAlign: "center" }}>
+        <CircularProgress thickness={3} size="lg" />
+      </Container>
+    );
+  }
 
   const handleCart = (id) => {
     if (!user?.email) {
@@ -51,7 +57,14 @@ const DetailsProduct = () => {
 
   return (
     <Container maxWidth="lg" sx={{ px: 1 }}>
-      <Box sx={{ backgroundColor: "#F4F3F0", my: { xs: 6, md: 10 }, py: 4 }}>
+      <Box
+        sx={{
+          backgroundColor: "#F4F3F0",
+          my: { xs: 6, md: 10 },
+          py: 4,
+          px: { xs: 1, md: 6, lg: 10 },
+        }}
+      >
         <Link to="/">
           <Typography
             sx={{ display: "flex", alignItems: "center", mb: 2, "&:hover": { color: "Highlight" } }}
@@ -118,12 +131,13 @@ const DetailsProduct = () => {
         modules={[Pagination, Navigation]}
         className="mySwiper"
       >
-        {reviews.map((review) => (
-          <SwiperSlide>
-            <Typography variant="h5">{review.userId.name}</Typography>
-            <Typography variant="body2">{review.review}</Typography>
-          </SwiperSlide>
-        ))}
+        {reviews &&
+          reviews.map((review) => (
+            <SwiperSlide>
+              <Typography variant="h5">{review.userId.name}</Typography>
+              <Typography variant="body2">{review.review}</Typography>
+            </SwiperSlide>
+          ))}
       </Swiper>
       <Container maxWidth="sm"></Container>
     </Container>
