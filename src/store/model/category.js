@@ -14,8 +14,9 @@ export const categoryModel = {
   }),
   fetchCategories: thunk(async (actions) => {
     try {
-      const { data } = await axios.get("https://nexus-coffee-house.onrender.com/api/categories");
-      actions?.setCategory(data);
+      const res = await axios.get("https://nexus-coffee-house-app.vercel.app/api/categories");
+
+      actions?.setCategory(res.data);
       actions?.setError(null);
     } catch (e) {
       actions.setError(e.response?.data?.message);

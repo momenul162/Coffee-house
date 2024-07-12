@@ -24,7 +24,7 @@ const Login = () => {
     try {
       if (newUser.email && newUser.password) {
         const { data } = await axios.post(
-          "https://nexus-coffee-house.onrender.com/auth/login",
+          "https://nexus-coffee-house-app.vercel.app/auth/login",
           newUser
         );
 

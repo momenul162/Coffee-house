@@ -23,7 +23,7 @@ const Register = () => {
     try {
       if (newData.name && newData.email && newData.password) {
         const { data } = await axios.post(
-          "https://nexus-coffee-house.onrender.com/auth/register",
+          "https://nexus-coffee-house-app.vercel.app/auth/register",
           newData
         );
 

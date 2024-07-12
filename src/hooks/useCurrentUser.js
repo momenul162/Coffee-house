@@ -6,7 +6,7 @@ const useCurrentUser = ({ id }) => {
   const fetchUser = useStoreActions((actions) => actions.users.fetchUser);
 
   useEffect(() => {
-    fetchUser({ url: `https://nexus-coffee-house.onrender.com/api/users/${id}` });
+    fetchUser({ url: `https://nexus-coffee-house-app.vercel.app/api/users/${id}` });
   }, [fetchUser, id]);
 
   return users;

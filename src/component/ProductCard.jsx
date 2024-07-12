@@ -24,9 +24,9 @@ const ProductCard = ({ item }) => {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "আগে লগিন করুন",
+        title: "Please Login",
         showConfirmButton: false,
-        timer: 1500,
+        timer: 2000,
       });
     } else {
       const cartItem = { userId: user._id, itemId: id };
@@ -79,7 +79,7 @@ const ProductCard = ({ item }) => {
             <Favorite />
           </IconButton>
         </CardOverflow>
-        <Link to={`/coffee/${item._id}`}>
+        <Link to={`/coffee/${item._id}`} style={{ textDecoration: "none" }}>
           <CardContent>
             <Typography level="h4">{item.name}</Typography>
             <Typography

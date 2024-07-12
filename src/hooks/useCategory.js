@@ -6,7 +6,7 @@ const useCategory = () => {
   const fetchCategories = useStoreActions((actions) => actions.categories.fetchCategories);
 
   useEffect(() => {
-    fetchCategories({ url: "https://nexus-coffee-house.onrender.com/api/categories" });
+    fetchCategories({ url: "https://nexus-coffee-house-app.vercel.app/api/categories" });
   }, [fetchCategories]);
 
   return categories;

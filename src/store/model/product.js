@@ -17,7 +17,7 @@ export const productModel = {
   fetchProducts: thunk(async (actions, { page, limit }) => {
     try {
       const { data } = await axios.get(
-        `https://nexus-coffee-house.onrender.com/api/products?page=${page}&limit=${limit}`
+        `https://nexus-coffee-house-app.vercel.app/api/products?page=${page}&limit=${limit}`
       );
       actions?.setProducts(data);
       actions.setError(null);
@@ -64,7 +64,7 @@ export const searchProductById = {
   fetchProduct: thunk(async (actions, { productId }) => {
     try {
       const { data } = await axios.get(
-        `https://nexus-coffee-house.onrender.com/api/products/${productId}`
+        `https://nexus-coffee-house-app.vercel.app/api/products/${productId}`
       );
       actions.setProduct(data);
       actions.setError(null);

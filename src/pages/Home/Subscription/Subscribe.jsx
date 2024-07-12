@@ -35,7 +35,7 @@ const Subscribe = () => {
       data-aos="fade-down"
       sx={{
         position: "absolute",
-        bottom: -215,
+        bottom: -198,
         left: { xs: "10%", sm: "15%", md: "20%", lg: "25%" },
         right: { xs: "10%", sm: "15%", md: "20%", lg: "25%" },
       }}
