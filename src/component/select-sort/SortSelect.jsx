@@ -1,5 +1,5 @@
 import { KeyboardArrowDown } from "@mui/icons-material";
-import { MenuItem, Select, selectClasses } from "@mui/joy";
+import { Box, Menu, MenuItem, Select, selectClasses } from "@mui/joy";
 import React from "react";
 
 const SortSelect = ({ value, getLimit }) => {
@@ -10,7 +10,8 @@ const SortSelect = ({ value, getLimit }) => {
       onChange={(e) => getLimit(e?.target?.value)}
       indicator={<KeyboardArrowDown />}
       sx={{
-        width: 140,
+        mb: 3,
+        width: 150,
         [`& .${selectClasses.indicator}`]: {
           transition: "0.2s",
           [`&.${selectClasses.expanded}`]: {

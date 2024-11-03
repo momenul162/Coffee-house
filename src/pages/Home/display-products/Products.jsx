@@ -24,7 +24,7 @@ const Products = () => {
 
   useEffect(() => {
     fetchProducts({ limit: displayLimit, page });
-  }, [page, displayLimit]);
+  }, [displayLimit, page]);
 
   if (loading) {
     return (
@@ -56,33 +56,38 @@ const Products = () => {
 
   return (
     <Container maxWidth={"xl"} sx={{ mt: 4 }}>
-      <Tabs
-        onChange={handleTab}
-        aria-label="Basic tabs"
-        value={tab}
-        sx={{ display: "flex", flexDirection: { md: "row" }, justifyContent: "center", mb: 1 }}
-      >
-        <HomeTab />
+      <Box sx={{ display: "flex", gap: 4, alignItems: "baseline" }}>
         <SortSelect value={displayLimit} getLimit={getLimit} />
-      </Tabs>
-      {tab === "All" ? (
-        <Typography>Total Items: {products?.totalProduct}</Typography>
-      ) : (
-        <Typography>
-          {categoryByItem?.length === 0 ? (
-            <Typography level="h3" textAlign={"center"}>
-              This items not available
-            </Typography>
-          ) : (
-            "Total Items: " + categoryByItem.length
-          )}
-        </Typography>
-      )}
-      <Grid container id="products" rowSpacing={2} columnSpacing={{ xs: 2, lg: 4, md: 3 }}>
-        {tab === "All"
-          ? products && products.products.map((item) => <ProductCard key={item._id} item={item} />)
-          : categoryByItem?.map((item) => <ProductCard key={item._id} item={item} />)}
-      </Grid>
+        {tab === "All" ? (
+          <Typography>Total Items: {products?.totalProduct}</Typography>
+        ) : (
+          <Typography>
+            {categoryByItem?.length === 0 ? (
+              <Typography level="h3" textAlign={"center"}>
+                This items not available
+              </Typography>
+            ) : (
+              "Total Items: " + categoryByItem.length
+            )}
+          </Typography>
+        )}
+      </Box>
+      <Box sx={{ display: "flex", gap: 4 }}>
+        <Tabs
+          onChange={handleTab}
+          value={tab}
+          sx={{ display: "flex", flexDirection: { md: "column" }, mb: 1 }}
+        >
+          <HomeTab />
+        </Tabs>
+
+        <Grid container id="products" rowSpacing={3} columnSpacing={{ xs: 2, lg: 3 }}>
+          {tab === "All"
+            ? products &&
+              products.products.map((item) => <ProductCard key={item._id} item={item} />)
+            : categoryByItem?.map((item) => <ProductCard key={item._id} item={item} />)}
+        </Grid>
+      </Box>
       <Stack spacing={4} alignItems={"center"} mt={4}>
         <Pagination
           onChange={handlePage}

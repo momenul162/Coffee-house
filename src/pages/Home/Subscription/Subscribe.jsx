@@ -43,9 +43,9 @@ const Subscribe = () => {
       <form onSubmit={handleSubmit} id="demo">
         <FormControl
           sx={{
-            maxWidth: { xs: "100%", sm: "100%", lg: "100%" },
+            maxWidth: { xs: "100%", sm: "100%", lg: "90%", xl: "80%" },
             px: { xs: 1, sm: 4, md: 8, lg: 10 },
-            py: { xs: 2, sm: 3, md: 4, lg: 6 },
+            py: { xs: 2, sm: 3, md: 4 },
             mx: "auto",
             bgcolor: "rgba(37,20,100, 0.60)",
             borderRadius: "15px 15px 0 0",

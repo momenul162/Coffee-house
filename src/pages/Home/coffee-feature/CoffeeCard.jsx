@@ -29,13 +29,12 @@ const CoffeeCard = () => {
           border: "none",
         }}
       >
-        <CardOverflow>
+        <CardOverflow sx={{ padding: 0 }}>
           <img
             data-aos="fade-right"
             style={{
-              marginLeft: "20px",
               maxWidth: "100%",
-              borderRadius: "20px",
+              borderRadius: "5px",
               WebKitCSSMatrix: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
               MozBoxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
               boxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.20)",
@@ -62,7 +61,7 @@ const CoffeeCard = () => {
               color="primary"
               sx={{
                 "--variant-borderWidth": "2px",
-                borderRadius: 40,
+                borderRadius: 30,
                 borderColor: "primary.500",
                 mx: "auto",
               }}

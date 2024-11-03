@@ -17,7 +17,9 @@ const HomeTab = () => {
     <TabList
       sx={{
         display: "flex",
-        flexWrap: "wrap",
+        flexDirection: "column",
+        justifyContent: "start",
+        alignItems: "start",
       }}
     >
       <Tab value={"All"}>All</Tab>
