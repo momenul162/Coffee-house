@@ -2,28 +2,25 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "../../../component/ProductCard";
 import { Pagination } from "@mui/material";
 import Tabs from "@mui/joy/Tabs";
-import {
-  Box,
-  CircularProgress,
-  Container,
-  Grid,
-  LinearProgress,
-  Stack,
-  Typography,
-} from "@mui/joy";
+import { Box, CircularProgress, Container, Grid, Stack, Typography } from "@mui/joy";
 import HomeTab from "../../../component/home-tab/HomeTab";
 import SortSelect from "../../../component/select-sort/SortSelect";
 import { useStoreActions, useStoreState } from "easy-peasy";
 
 const Products = () => {
   const [page, setPage] = useState(1);
-  const [displayLimit, setDisplayLimit] = useState(9);
+  const [displayLimit, setDisplayLimit] = useState(12);
   const [tab, setTab] = useState("All");
   const { products, loading } = useStoreState((state) => state?.products);
   const { fetchProducts } = useStoreActions((actions) => actions?.products);
 
+  TODO: "undefined problem of displayLimit";
   useEffect(() => {
-    fetchProducts({ limit: displayLimit, page });
+    console.log(page, displayLimit);
+    if (displayLimit) {
+      console.log(page, displayLimit);
+      fetchProducts({ limit: displayLimit, page });
+    }
   }, [displayLimit, page]);
 
   if (loading) {
@@ -72,16 +69,17 @@ const Products = () => {
           </Typography>
         )}
       </Box>
-      <Box sx={{ display: "flex", gap: 4 }}>
-        <Tabs
-          onChange={handleTab}
-          value={tab}
-          sx={{ display: "flex", flexDirection: { md: "column" }, mb: 1 }}
-        >
+      <Box sx={{ display: { md: "flex" }, gap: { xs: 1, md: 3, lg: 4 } }}>
+        <Tabs onChange={handleTab} value={tab} sx={{ mb: 1 }}>
           <HomeTab />
         </Tabs>
 
-        <Grid container id="products" rowSpacing={3} columnSpacing={{ xs: 2, lg: 3 }}>
+        <Grid
+          container
+          id="products"
+          rowSpacing={{ xs: 1, sm: 2, md: 3, lg: 3 }}
+          columnSpacing={{ xs: 1, sm: 2, md: 3, lg: 3 }}
+        >
           {tab === "All"
             ? products &&
               products.products.map((item) => <ProductCard key={item._id} item={item} />)

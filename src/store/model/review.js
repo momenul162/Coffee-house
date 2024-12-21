@@ -1,5 +1,6 @@
 import { action, thunk } from "easy-peasy";
 import { baseURL } from "../../utils/baseURL";
+import axios from "axios";
 
 export const reviewModel = {
   reviews: null,
@@ -21,8 +22,9 @@ export const reviewModel = {
   fetchReview: thunk(async (actions, { productId }) => {
     actions.setLoading(true);
     try {
-      const { data } = await baseURL.get(`/api/reviews/${productId}`);
-      actions.setReviews(data);
+      const { data } = await axios.get(`http://localhost:4000/api/reviews/${productId}`);
+
+      actions?.setReviews(data);
       actions.setError(null);
       actions.setLoading(false);
     } catch (error) {
@@ -31,7 +33,6 @@ export const reviewModel = {
   }),
 
   postReview: thunk(async (actions, payload) => {
-    console.log(payload);
     try {
       await baseURL.post("/api/reviews", payload);
       actions.setReviews({ productId: payload.productId });

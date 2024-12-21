@@ -33,7 +33,7 @@ const AddItem = () => {
     },
   });
 
-  const item_upload_url = "https://nexus-coffee-house-app.vercel.app/admin/api/products";
+  const item_upload_url = "http://localhost:4000/admin/api/products";
   const img_hosting_url = `https://api.imgbb.com/1/upload?key=${hosting_key}`;
 
   const onValid = async (data) => {

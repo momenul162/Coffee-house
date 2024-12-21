@@ -4,7 +4,6 @@ import Banner from "../slider/Banner";
 import Feature from "../feature/Feature";
 import Products from "../display-products/Products";
 import CoffeeCard from "../coffee-feature/CoffeeCard";
-import Subscribe from "../Subscription/Subscribe";
 import { Box } from "@mui/joy";
 
 const Home = () => {
@@ -15,7 +14,6 @@ const Home = () => {
       <Feature />
       <Products />
       <CoffeeCard />
-      <Subscribe />
     </Box>
   );
 };

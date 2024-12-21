@@ -23,12 +23,8 @@ const Login = () => {
   const onValid = async (newUser) => {
     try {
       if (newUser.email && newUser.password) {
-        const { data } = await axios.post(
-          "https://nexus-coffee-house-app.vercel.app/auth/login",
-          newUser
-        );
+        const { data } = await axios.post("http://localhost:4000/auth/login", newUser);
 
-        console.log(data?.user?.user);
         if (data.user.token) {
           localStorage.setItem("jwt-access-token", data?.user.token);
           const user = data?.user?.user;
@@ -52,10 +48,10 @@ const Login = () => {
 
   return (
     <Container
-      maxWidth="sm"
+      maxWidth="xs"
       sx={{ border: 1, boxShadow: 5, py: 8, px: 0, mt: 20, mb: 10, borderRadius: 10 }}
     >
-      <Typography textAlign="center" level="h3" sx={{ mb: 3, color: "violet" }}>
+      <Typography level="h3" sx={{ color: "#0C1844", mb: 4, textAlign: "center" }}>
         Sign in
       </Typography>
       <Box

@@ -11,6 +11,7 @@ import "./ProductReview.css";
 import { Pagination, Navigation } from "swiper/modules";
 import { Box, Button, CircularProgress, Container, Stack, Typography } from "@mui/joy";
 import Swal from "sweetalert2";
+import { Rating } from "@mui/material";
 
 const DetailsProduct = () => {
   const { id } = useParams();
@@ -120,26 +121,55 @@ const DetailsProduct = () => {
           </Box>
         </Box>
       </Box>
-      <Swiper
-        slidesPerView={1}
-        spaceBetween={30}
-        loop={true}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        modules={[Pagination, Navigation]}
-        className="mySwiper"
-      >
-        {reviews &&
-          reviews.map((review) => (
-            <SwiperSlide>
-              <Typography variant="h5">{review.userId.name}</Typography>
-              <Typography variant="body2">{review.review}</Typography>
-            </SwiperSlide>
-          ))}
-      </Swiper>
-      <Container maxWidth="sm"></Container>
+      <Box sx={{ bgcolor: "#F4F3F0", pt: 2, pl: 2 }}>
+        <Typography level="h3" sx={{ color: "#0C1844", mb: 4 }}>
+          Our Customers Reviews
+        </Typography>
+        <Swiper
+          slidesPerView={1}
+          spaceBetween={30}
+          loop={true}
+          pagination={{
+            clickable: true,
+          }}
+          style={{
+            maxWidth: "70%",
+            paddingBottom: "15px",
+            borderRadius: "5px",
+            WebKitCSSMatrix: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
+            MozBoxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
+            boxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.20)",
+          }}
+          navigation={true}
+          modules={[Pagination, Navigation]}
+          className="mySwiper"
+        >
+          {reviews &&
+            reviews?.map((review) => (
+              <SwiperSlide
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "15xp",
+                  padding: "10px 0 20px 0",
+                }}
+              >
+                <Typography level="h4">
+                  {review.productId.name}{" "}
+                  <Rating
+                    sx={{ fontSize: 16, bgcolor: "#F4F3F3", p: 1 }}
+                    name="half-rating"
+                    value={review?.ratings}
+                    precision={0.5}
+                    readOnly
+                  />
+                </Typography>
+                <Typography level="body-xs">{review.userId.name}</Typography>
+                <Typography level="body-sm">"~ {review.review} ~"</Typography>
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      </Box>
     </Container>
   );
 };

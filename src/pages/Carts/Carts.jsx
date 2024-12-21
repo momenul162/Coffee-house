@@ -18,17 +18,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import Aos from "aos";
 import EmptyPageHandle from "../../utils/handle-empty-page/EmptyHandle";
+import Swal from "sweetalert2";
 
 const Carts = () => {
   const { user, loading: userLoading } = useStoreState((state) => state.currentUser);
   const { fetchCart } = useStoreActions((actions) => actions.carts);
   const { carts, loading } = useStoreState((state) => state.carts);
+  const { removeFromCarts } = useStoreActions((actions) => actions.carts);
 
   useEffect(() => {
     if (user) {
       fetchCart({ userId: user?._id });
     }
-  }, [user]);
+  }, []);
 
   if (loading || userLoading) {
     return (
@@ -55,7 +57,7 @@ const Carts = () => {
       confirmButtonText: "Yes, delete it!",
     });
     if (result.isConfirmed) {
-      await deleteUser({ userId: user._id });
+      await removeFromCarts({ userId: cart.userId._id, cartId: cart._id });
       Swal.fire({
         position: "center",
         icon: "success",
@@ -83,8 +85,8 @@ const Carts = () => {
               >
                 <Table stripe="odd" hoverRow>
                   <caption>
-                    <Typography textAlign={"center"} level="h3" sx={{ color: "violet" }}>
-                      Your carts
+                    <Typography level="h3" sx={{ color: "#0C1844", mb: 4, textAlign: "center" }}>
+                      Your Carts
                     </Typography>
                   </caption>
                   <thead>
@@ -106,7 +108,6 @@ const Carts = () => {
                           <td>{cart.quantity * cart.itemId.price}</td>
                           <td>
                             <IconButton
-                              disabled
                               variant="outlined"
                               color="danger"
                               size="sm"

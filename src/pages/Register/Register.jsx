@@ -22,12 +22,7 @@ const Register = () => {
   const onValid = async (newData) => {
     try {
       if (newData.name && newData.email && newData.password) {
-        const { data } = await axios.post(
-          "https://nexus-coffee-house-app.vercel.app/auth/register",
-          newData
-        );
-
-        console.log(data);
+        const { data } = await axios.post("http://localhost:4000/auth/register", newData);
 
         if (data) {
           Swal.fire({
@@ -51,7 +46,7 @@ const Register = () => {
       maxWidth="xs"
       sx={{ border: 1, boxShadow: 3, py: 10, px: 0, mt: 20, mb: 10, borderRadius: 10 }}
     >
-      <Typography textAlign="center" level="h3" sx={{ mb: 3, color: "violet" }}>
+      <Typography level="h3" sx={{ color: "#0C1844", mb: 4, textAlign: "center" }}>
         Sign up
       </Typography>
       <Box

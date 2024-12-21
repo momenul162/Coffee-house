@@ -1,5 +1,5 @@
 import { KeyboardArrowDown } from "@mui/icons-material";
-import { Box, Menu, MenuItem, Select, selectClasses } from "@mui/joy";
+import { MenuItem, Select, selectClasses } from "@mui/joy";
 import React from "react";
 
 const SortSelect = ({ value, getLimit }) => {

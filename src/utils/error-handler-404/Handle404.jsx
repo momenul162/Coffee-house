@@ -18,7 +18,9 @@ const Handle404 = () => {
             Oops!
           </Typography>
           <Typography level="body-lg">Sorry, an unexpected error has occurred.</Typography>
-          <Typography level="body-lg">{error.statusText || error.message}</Typography>
+          <Typography level="body-lg" color="danger">
+            {error.statusText || error.message}
+          </Typography>
         </Card>
       </Box>
     </div>

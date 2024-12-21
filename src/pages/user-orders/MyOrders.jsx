@@ -35,8 +35,8 @@ const MyOrders = () => {
         <>
           <Table sx={{ textAlign: "center" }} borderAxis="bothBetween">
             <caption>
-              <Typography textAlign="center" level="h3" sx={{ mb: 4, color: "violet" }}>
-                Your orders History
+              <Typography level="h3" sx={{ color: "#0C1844", mb: 4, textAlign: "center" }}>
+                Our Customers Reviews
               </Typography>
             </caption>
             <thead>
@@ -56,7 +56,7 @@ const MyOrders = () => {
                           style={{
                             textDecoration: "none",
                             display: "flex",
-                            gap: "20px",
+                            gap: "16px",
                             alignItems: "center",
                             padding: "35px 10px",
                           }}
@@ -80,7 +80,7 @@ const MyOrders = () => {
 
                         <td>
                           {order.status === "Delivered" && (
-                            <Link to={`/api/reviews/${product._id}`}>
+                            <Link to={`/reviews/${product._id}`}>
                               <Button variant="outlined" color="success" startDecorator={<Add />}>
                                 Review
                               </Button>

@@ -7,7 +7,6 @@ const Overview = () => {
   const { fetchProducts } = useStoreActions((actions) => actions?.products);
 
   const { products: items } = products;
-  console.log(items);
 
   useEffect(() => {
     fetchProducts({ limit: 0, page: 0 });
@@ -33,7 +32,7 @@ const Overview = () => {
             borderColor: "divider",
           }}
         >
-          <Typography level="title-sm">Total Products: 13</Typography>
+          <Typography level="title-sm">Total Products: {items?.length}</Typography>
           <Divider orientation="vertical" />
           <Typography level="title-sm">Total Sold: 9</Typography>
           <Divider orientation="vertical" />

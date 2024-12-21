@@ -17,15 +17,15 @@ const HomeTab = () => {
     <TabList
       sx={{
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "start",
-        alignItems: "start",
+        gap: { xs: 3 },
+        flexWrap: { xs: "wrap", md: "nowrap" },
+        flexDirection: { md: "column" },
       }}
     >
       <Tab value={"All"}>All</Tab>
       {categories &&
         categories?.map((category) => (
-          <Tab value={category?.name} key={category?._id}>
+          <Tab sx={{ px: { xs: 0 } }} value={category?.name} key={category?._id}>
             {category?.name}
           </Tab>
         ))}

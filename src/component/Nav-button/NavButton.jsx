@@ -6,7 +6,7 @@ const NavButton = ({ navIcon }) => {
     <Button
       sx={{
         display: "block",
-        fontSize: "1.2rem",
+        fontSize: "1.1rem",
         color: "#071952",
         bgcolor: "transparent",
         ":hover": { bgcolor: "#EEEDEB", color: "#304463" },

@@ -14,7 +14,7 @@ export const categoryModel = {
   }),
   fetchCategories: thunk(async (actions) => {
     try {
-      const res = await axios.get("https://nexus-coffee-house-app.vercel.app/api/categories");
+      const res = await axios.get("http://localhost:4000/api/categories");
 
       actions?.setCategory(res.data);
       actions?.setError(null);

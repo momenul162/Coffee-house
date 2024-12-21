@@ -31,9 +31,21 @@ export const cartModel = {
     }
   }),
 
+  removeFromCarts: thunk(async (actions, { cartId, userId }) => {
+    console.log(cartId, userId);
+    try {
+      await baseURL.delete(`/api/carts/${cartId}`);
+      actions.fetchCart({ userId });
+      actions.setErrors(null);
+    } catch (error) {
+      actions.setErrors("Something went wrong");
+    }
+  }),
+
   postCart: thunk(async (actions, payload) => {
     try {
       const { data } = await baseURL.post("/api/carts", payload);
+
       if (data._id) {
         actions?.fetchCart({ userId: payload.userId });
         actions?.setErrors(null);

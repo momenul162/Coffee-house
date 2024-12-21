@@ -19,14 +19,17 @@ const Review = () => {
     postReview(review);
     setDescription("");
     setRatings(0);
-    navigate("/api/my-orders");
+    navigate("/my-orders");
   };
   return (
     <Container maxWidth="sm" sx={{ my: 16 }}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
           <FormControl>
-            <Typography component="legend">Rate this product</Typography>
+            <Typography sx={{ fontSize: 30, fontWeight: 500, textAlign: "center", mb: 4 }}>
+              Rate this product
+            </Typography>
+
             <Rating
               name="half-rating"
               precision={0.5}

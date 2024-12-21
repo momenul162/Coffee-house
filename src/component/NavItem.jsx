@@ -40,9 +40,6 @@ const NavItem = ({ carts, user }) => {
           <NavLink to="/auth/login" style={{ textDecoration: "none" }}>
             <NavButton navIcon={"Sign in"} />
           </NavLink>
-          <NavLink to="/auth/register" style={{ textDecoration: "none" }}>
-            <NavButton navIcon={"Sign up"} />
-          </NavLink>
         </>
       )}
     </>

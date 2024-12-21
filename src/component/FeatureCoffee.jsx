@@ -13,8 +13,8 @@ const FeatureCoffee = ({ img, title, body }) => {
         transition: "transform 0.3s ease-in-out",
         "&:hover": {
           transform: "scale(1.01)",
-          backgroundColor: "rgba(37,20,100, 0.60)",
-          color: "white",
+          backgroundColor: "#ECEBDE",
+          color: "#071952",
           borderRadius: 2,
         },
         cursor: "pointer",

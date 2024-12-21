@@ -54,7 +54,7 @@ const ProductCard = ({ item }) => {
           <Link to={`/coffee/${item._id}`}>
             <AspectRatio
               sx={{
-                minWidth: 200,
+                minWidth: "100%",
                 transition: "transform 0.3s ease-in-out",
                 "&:hover": {
                   transform: "scale(1.1)",
