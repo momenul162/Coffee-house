@@ -22,7 +22,10 @@ const Register = () => {
   const onValid = async (newData) => {
     try {
       if (newData.name && newData.email && newData.password) {
-        const { data } = await axios.post("http://localhost:4000/auth/register", newData);
+        const { data } = await axios.post(
+          "https://nexus-coffee-house.vercel.app/auth/register",
+          newData
+        );
 
         if (data) {
           Swal.fire({

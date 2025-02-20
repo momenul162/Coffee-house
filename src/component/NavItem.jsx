@@ -14,18 +14,18 @@ const NavItem = ({ carts, user }) => {
     <>
       {user?.roles === "ADMIN" && (
         <NavLink to="/dashboard/overview" style={{ textDecoration: "none" }}>
-          <NavButton navIcon={"Dashboard"} />
+          <NavButton navIcon={"Dashboard"} title={"Dashboard"} />
         </NavLink>
       )}
       {user?.roles !== "ADMIN" && (
         <>
           <NavLink to="/my-orders" style={{ textDecoration: "none" }}>
-            <NavButton navIcon={"My Orders"} />
+            <NavButton navIcon={"My Orders"} title={"My order"} />
           </NavLink>
 
           <NavLink to="/carts" style={{ textDecoration: "none" }}>
             <Badge badgeContent={carts?.length} color="#071952">
-              <NavButton navIcon={<ShoppingCart />} />
+              <NavButton navIcon={<ShoppingCart />} title={"Carts"} />
             </Badge>
           </NavLink>
         </>

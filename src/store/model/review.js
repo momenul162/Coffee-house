@@ -22,7 +22,9 @@ export const reviewModel = {
   fetchReview: thunk(async (actions, { productId }) => {
     actions.setLoading(true);
     try {
-      const { data } = await axios.get(`http://localhost:4000/api/reviews/${productId}`);
+      const { data } = await axios.get(
+        `https://nexus-coffee-house.vercel.app/api/reviews/${productId}`
+      );
 
       actions?.setReviews(data);
       actions.setError(null);

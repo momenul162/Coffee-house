@@ -23,7 +23,10 @@ const Login = () => {
   const onValid = async (newUser) => {
     try {
       if (newUser.email && newUser.password) {
-        const { data } = await axios.post("http://localhost:4000/auth/login", newUser);
+        const { data } = await axios.post(
+          "https://nexus-coffee-house.vercel.app/auth/login",
+          newUser
+        );
 
         if (data.user.token) {
           localStorage.setItem("jwt-access-token", data?.user.token);

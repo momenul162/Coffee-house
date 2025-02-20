@@ -1,30 +1,24 @@
-import { KeyboardArrowDown } from "@mui/icons-material";
-import { MenuItem, Select, selectClasses } from "@mui/joy";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React from "react";
 
 const SortSelect = ({ value, getLimit }) => {
   return (
-    <Select
-      placeholder="Sort"
-      value={value || ""}
-      onChange={(e) => getLimit(e?.target?.value)}
-      indicator={<KeyboardArrowDown />}
-      sx={{
-        mb: 3,
-        width: 150,
-        [`& .${selectClasses.indicator}`]: {
-          transition: "0.2s",
-          [`&.${selectClasses.expanded}`]: {
-            transform: "rotate(-180deg)",
-          },
-        },
-      }}
-    >
-      <MenuItem value={4}>4</MenuItem>
-      <MenuItem value={6}>6</MenuItem>
-      <MenuItem value={12}>12</MenuItem>
-      <MenuItem value={24}>24</MenuItem>
-    </Select>
+    <FormControl sx={{ width: 100, height: 100 }}>
+      <InputLabel id="demo-simple-select-label">Select number</InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        label="Select number"
+        id="demo-simple-select"
+        placeholder="Sort"
+        value={value || ""}
+        onChange={(e) => getLimit(e.target.value)}
+      >
+        <MenuItem value={4}>4</MenuItem>
+        <MenuItem value={6}>6</MenuItem>
+        <MenuItem value={12}>12</MenuItem>
+        <MenuItem value={24}>24</MenuItem>
+      </Select>
+    </FormControl>
   );
 };
 

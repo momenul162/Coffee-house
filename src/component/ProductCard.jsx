@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
@@ -18,36 +18,35 @@ const ProductCard = ({ item }) => {
   const { postCart } = useStoreActions((actions) => actions.carts);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    Aos.init({ duration: 1200 });
+  }, []);
+
   const handleCart = (id) => {
     if (!user?.email) {
       navigate("/auth/login");
       Swal.fire({
         position: "center",
-        icon: "success",
+        icon: "warning",
         title: "Please Login",
         showConfirmButton: false,
         timer: 2000,
       });
     } else {
-      const cartItem = { userId: user._id, itemId: id };
-      postCart(cartItem);
+      postCart({ userId: user._id, itemId: id });
     }
   };
 
-  Aos.init({
-    duration: 1200,
-  });
-
   return (
-    <Grid item={"true"} lg={3} md={4} sm={6} xs={12}>
+    <Grid item lg={3} md={4} sm={6} xs={12}>
       <Card
         data-aos="zoom-in"
         sx={{
           width: 320,
           maxWidth: "100%",
-          WebKitCSSMatrix: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
-          MozBoxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.60)",
-          boxShadow: "0px 0px 231px 45px rgba(37,20,100, 0.20)",
+          boxShadow: "0px 0px 15px rgba(37,20,100, 0.2)",
+          transition: "box-shadow 0.3s ease-in-out",
+          "&:hover": { boxShadow: "0px 0px 25px rgba(37,20,100, 0.4)" },
         }}
       >
         <CardOverflow>
@@ -56,17 +55,15 @@ const ProductCard = ({ item }) => {
               sx={{
                 minWidth: "100%",
                 transition: "transform 0.3s ease-in-out",
-                "&:hover": {
-                  transform: "scale(1.1)",
-                },
-                borderRadius: 10,
+                "&:hover": { transform: "scale(1.1)" },
+                borderRadius: 2,
               }}
             >
               <img src={item.image} loading="lazy" alt={item.name} />
             </AspectRatio>
           </Link>
           <IconButton
-            aria-label="Like minimal photography"
+            aria-label="Like"
             size="md"
             variant="solid"
             sx={{
@@ -74,9 +71,10 @@ const ProductCard = ({ item }) => {
               borderRadius: "50%",
               right: "1rem",
               bottom: "-1rem",
+              backgroundColor: "white",
             }}
           >
-            <Favorite />
+            <Favorite color="error" />
           </IconButton>
         </CardOverflow>
         <Link to={`/coffee/${item._id}`} style={{ textDecoration: "none" }}>
@@ -91,7 +89,7 @@ const ProductCard = ({ item }) => {
                 </Chip>
               }
             >
-              $ {item.price}
+              ${item.price}
             </Typography>
             <Typography level="body-sm">(Stock Available)</Typography>
           </CardContent>
@@ -102,11 +100,14 @@ const ProductCard = ({ item }) => {
             onClick={() => handleCart(item._id)}
             sx={{
               color: "rgba(68,42,107, 0.96)",
-              ":hover": { color: "rgba(158,22,17, 0.69)", bgcolor: "rgba(68,42,107, 0.50)" },
+              ":hover": {
+                color: "rgba(158,22,17, 0.69)",
+                bgcolor: "rgba(68,42,107, 0.50)",
+              },
             }}
             size="lg"
           >
-            Add to cart
+            Add to Cart
           </Button>
         </CardOverflow>
       </Card>
